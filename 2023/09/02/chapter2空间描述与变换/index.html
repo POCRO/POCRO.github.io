@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="zh-Han">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    <meta name="author" content="POCRO">
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://pocro.github.io/2023/09/02/chapter2空间描述与变换/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+        <meta name="description" content="1 .关于描述&#x3D;&#x3D;位置描述&#x3D;&#x3D;：建立坐标系后就可以用一个3*1的位置矢量来给世界坐标系中的任何点定位，其中在本书中用左上标来指明所在的参考系   &#x3D;&#x3D;姿态描述&#x3D;&#x3D;：为了描述物体的姿态，我们将在物体上固定一个坐标系 B 并给出此坐标系相对于原坐标系 A 的姿态，那么为了描述这两种坐标系之间的关系，显然就要用到矩阵来操作">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Chapter 2 空间描述与变换">
+<meta property="og:url" content="https://pocro.github.io/2023/09/02/chapter2%E7%A9%BA%E9%97%B4%E6%8F%8F%E8%BF%B0%E4%B8%8E%E5%8F%98%E6%8D%A2/index.html">
+<meta property="og:site_name" content="POCRO的个人站">
+<meta property="og:description" content="1 .关于描述&#x3D;&#x3D;位置描述&#x3D;&#x3D;：建立坐标系后就可以用一个3*1的位置矢量来给世界坐标系中的任何点定位，其中在本书中用左上标来指明所在的参考系   &#x3D;&#x3D;姿态描述&#x3D;&#x3D;：为了描述物体的姿态，我们将在物体上固定一个坐标系 B 并给出此坐标系相对于原坐标系 A 的姿态，那么为了描述这两种坐标系之间的关系，显然就要用到矩阵来操作">
+<meta property="og:locale">
+<meta property="og:image" content="https://pocro.github.io/2023/09/02/note_pic/image-20230828191619005.png">
+<meta property="og:image" content="https://pocro.github.io/2023/09/02/note_pic/image-20230828192123715.png">
+<meta property="og:image" content="https://pocro.github.io/2023/09/02/note_pic/QQ%E5%9B%BE%E7%89%8720230828193732.png">
+<meta property="og:image" content="https://pocro.github.io/2023/09/02/note_pic/image-20230828194613898.png">
+<meta property="og:image" content="https://pocro.github.io/2023/09/02/note_pic/image-20230828200422685.png">
+<meta property="og:image" content="https://pocro.github.io/2023/09/02/note_pic/image-20230828195617454.png">
+<meta property="og:image" content="https://pocro.github.io/note_pic/image-20230828195702811.png">
+<meta property="og:image" content="https://pocro.github.io/2023/09/02/note_pic/image-20230828200654996.png">
+<meta property="og:image" content="https://pocro.github.io/2023/09/02/note_pic/image-20230828201357173.png">
+<meta property="og:image" content="https://pocro.github.io/2023/09/02/note_pic/image-20230828202311015.png">
+<meta property="og:image" content="https://pocro.github.io/note_pic/image-20230828202325114.png">
+<meta property="og:image" content="https://pocro.github.io/note_pic/image-20230828202424755.png">
+<meta property="og:image" content="https://pocro.github.io/2023/09/02/note_pic/image-20230828203409630.png">
+<meta property="og:image" content="https://pocro.github.io/note_pic/image-20230828204227821.png">
+<meta property="og:image" content="https://pocro.github.io/note_pic/image-20230828204251160.png">
+<meta property="og:image" content="https://pocro.github.io/2023/09/02/note_pic/image-20230828205240684.png">
+<meta property="og:image" content="https://pocro.github.io/2023/09/02/note_pic/image-20230828211001845.png">
+<meta property="og:image" content="https://pocro.github.io/2023/09/02/note_pic/image-20230828211035471.png">
+<meta property="og:image" content="https://pocro.github.io/2023/09/02/note_pic/image-20230828211202951.png">
+<meta property="og:image" content="https://pocro.github.io/2023/09/02/note_pic/image-20230828211415585.png">
+<meta property="og:image" content="https://pocro.github.io/2023/09/02/note_pic/image-20230828211424050.png">
+<meta property="og:image" content="https://pocro.github.io/note_pic/image-20230828212801764.png">
+<meta property="og:image" content="https://pocro.github.io/2023/09/02/note_pic/image-20230828213056055.png">
+<meta property="og:image" content="https://pocro.github.io/note_pic/image-20230828213108921.png">
+<meta property="og:image" content="https://pocro.github.io/2023/09/02/note_pic/image-20230829190433519.png">
+<meta property="og:image" content="https://pocro.github.io/2023/09/02/note_pic/image-20230829190827671.png">
+<meta property="og:image" content="https://pocro.github.io/note_pic/image-20230829191403978.png">
+<meta property="og:image" content="https://pocro.github.io/2023/09/02/note_pic/image-20230829191608514.png">
+<meta property="og:image" content="https://pocro.github.io/2023/09/02/note_pic/image-20230829191619373.png">
+<meta property="og:image" content="https://pocro.github.io/2023/09/02/note_pic/image-20230829191735365.png">
+<meta property="og:image" content="https://pocro.github.io/2023/09/02/note_pic/image-20230829191745595.png">
+<meta property="og:image" content="https://pocro.github.io/note_pic/image-20230829191830959.png">
+<meta property="og:image" content="https://pocro.github.io/note_pic/image-20230829192631548.png">
+<meta property="og:image" content="https://pocro.github.io/2023/09/02/note_pic/image-20230829192917685.png">
+<meta property="og:image" content="https://pocro.github.io/2023/09/02/note_pic/image-20230829192951707.png">
+<meta property="og:image" content="https://pocro.github.io/2023/09/02/note_pic/image-20230829193023060.png">
+<meta property="og:image" content="https://pocro.github.io/note_pic/image-20230829195857059.png">
+<meta property="og:image" content="https://pocro.github.io/note_pic/image-20230829200010259.png">
+<meta property="og:image" content="https://pocro.github.io/note_pic/image-20230829200024119.png">
+<meta property="og:image" content="https://pocro.github.io/2023/09/02/note_pic/image-20230829200137622.png">
+<meta property="og:image" content="https://pocro.github.io/2023/09/02/note_pic/image-20230829200458535.png">
+<meta property="og:image" content="https://pocro.github.io/2023/09/02/note_pic/image-20230829200804566.png">
+<meta property="og:image" content="https://pocro.github.io/2023/09/02/note_pic/image-20230829200817259.png">
+<meta property="og:image" content="https://pocro.github.io/2023/09/02/note_pic/image-20230829201406137.png">
+<meta property="article:published_time" content="2023-09-02T09:26:56.000Z">
+<meta property="article:modified_time" content="2023-09-03T03:53:24.213Z">
+<meta property="article:author" content="Flying Pocro">
+<meta property="article:tag" content="机器人学导论学习笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pocro.github.io/2023/09/02/note_pic/image-20230828191619005.png">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/redefine-favicon.svg" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/redefine-favicon.svg">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/redefine-favicon.svg">
+    <!--- Page Info-->
+    
+    <title>
+        
+            Chapter 2 空间描述与变换 -
+        
+        POCRO的个人站
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/styles.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/fonts.css">
+
+    
+<link rel="stylesheet" href="/fonts/Satoshi/satoshi.css">
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+
+    <!--- Inject Part-->
+    
+    <script id="hexo-configurations">
+    let Global = window.Global || {};
+    Global.hexo_config = {"hostname":"pocro.github.io","root":"/","language":"zh-Han","path":"search.xml"};
+    Global.theme_config = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":true,"lazyload":true,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"open_graph":true,"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/wallhaven-wqery6-light.webp","dark":"/images/wallhaven-wqery6-dark.webp"},"title":"POCRO的个人站","subtitle":{"text":["Welcome!"],"hitokoto":{"enable":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":false,"links":{"github":null,"instagram":null,"zhihu":null,"twitter":null,"email":null},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null}]},"mermaid":{"enable":false,"version":"9.3.0"}},"version":"2.4.4","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Archives":{"path":"/archives","icon":"fa-regular fa-archive"},"About":{"icon":"fa-regular fa-user","submenus":null,"Me":"/about","Github":"https://github.com/POCRO"}},"search":{"enable":true,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"links":null},"article_date_format":"auto","categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2023/8/29"};
+    Global.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    Global.data_config = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <span class="swup-progress-icon">
+            <i class="fa-solid fa-circle-notch fa-spin"></i>
+        </span>
+    
+</div>
+
+
+<main class="page-container" id="swup">
+
+    
+
+    <div class="main-content-container">
+
+
+        <div class="main-content-header">
+            <header class="navbar-container">
+    
+    <div class="navbar-content">
+        <div class="left">
+            
+            <a class="logo-title" href="https://pocro.github.io/">
+                
+                POCRO的个人站
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-house"></i>
+                                        
+                                        首页
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/archives"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-archive"></i>
+                                        
+                                        归档
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-user"></i>
+                                        
+                                        关于
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i></div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div class="navbar-drawer w-full absolute top-0 left-0 bg-background-color">
+        <ul class="drawer-navbar-list flex flex-col justify-start items-center">
+            
+                
+                    <li class="drawer-navbar-item text-base my-1.5 flex justify-center items-center">
+                        <a class="rounded-3xl py-1.5 px-5 hover:border hover:!text-primary active:!text-primary group " 
+                        href="/"  >
+                             
+                                
+                                    <i class="fa-regular fa-house"></i>
+                                
+                                首页
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item text-base my-1.5 flex justify-center items-center">
+                        <a class="rounded-3xl py-1.5 px-5 hover:border hover:!text-primary active:!text-primary group " 
+                        href="/archives"  >
+                             
+                                
+                                    <i class="fa-regular fa-archive"></i>
+                                
+                                归档
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item text-base my-1.5 flex justify-center items-center">
+                        <a class="rounded-3xl py-1.5 px-5 hover:border hover:!text-primary active:!text-primary group " 
+                        href="/"  >
+                             
+                                
+                                    <i class="fa-regular fa-user"></i>
+                                
+                                关于
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="main-content-body">
+
+            
+
+            <div class="main-content">
+
+                
+                    <div class="post-page-container">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            
+                <h1 class="article-title-regular">Chapter 2 空间描述与变换</h1>
+            
+            </div>
+            
+                    
+        
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/redefine-avatar.svg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">POCRO</span>
+                        
+                            <span class="author-label">Lv1</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2023-09-02 17:26:56</span>
+        <span class="mobile">2023-09-02 17:26:56</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2023-09-03 11:53:24</span>
+            <span class="mobile">2023-09-03 11:53:24</span>
+            <span class="hover-info">更新</span>
+        </span>
+    
+
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%AD%A6%E5%AF%BC%E8%AE%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">机器人学导论学习笔记</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        
+
+
+        <div class="article-content markdown-body">
+            <h2 id="1-关于描述"><a href="#1-关于描述" class="headerlink" title="1 .关于描述"></a>1 .关于描述</h2><p>&#x3D;&#x3D;位置描述&#x3D;&#x3D;：建立坐标系后就可以用一个3*1的位置矢量来给世界坐标系中的任何点定位，其中在本书中用左上标来指明所在的参考系</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="../note_pic/image-20230828191619005.png"
+                     
+                >
+
+<p>&#x3D;&#x3D;姿态描述&#x3D;&#x3D;：为了描述物体的姿态，我们将在物体上固定一个坐标系 B 并给出此坐标系相对于原坐标系 A 的姿态，那么为了描述这两种坐标系之间的关系，显然就要用到矩阵来操作</p>
+<p>下面建立 B 相对于 A 的矩阵变换</p>
+<p>将 B 的列单位向量（用 A 中坐标表示）组成<u>旋转矩阵</u></p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="../note_pic/image-20230828192123715.png"
+                     
+                >
+
+<p>而右式中的各个系数可以用，不难想象， 要想求 B 的 x方向上的列单位向量，只需要将这一向量（用 A 坐标系表示）与 A坐标系的 各个单位向量点乘即可得到对应分量</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="../note_pic/QQ图片20230828193732.png"
+                      alt="QQ图片20230828193732" style="zoom: 25%;" 
+                >
+
+<p>而由线性代数的知识，规范正交向量组构成的矩阵是正交矩阵，则由正交矩阵的性质有：正交矩阵的逆等于它的转置<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="../note_pic/image-20230828194613898.png"
+                      alt="image-20230828194613898" style="zoom: 25%;" 
+                ></p>
+<p>也即：</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="../note_pic/image-20230828200422685.png"
+                      alt="image-20230828200422685" style="zoom:50%;" 
+                >
+
+<p>&#x3D;&#x3D;位姿描述&#x3D;&#x3D; </p>
+<p>在机器人学中，将位置与姿态统一称为 位姿</p>
+<blockquote>
+<p>可将 位置 看作旋转矩阵为单位阵的 特殊位姿，将 姿态 看作位置矢量为零矢量的 特殊位姿</p>
+</blockquote>
+<p>而位姿可以用两个坐标系之间的相对关系来描述，也就是矩阵</p>
+<h2 id="2-坐标系变换：映射"><a href="#2-坐标系变换：映射" class="headerlink" title="2 .坐标系变换：映射"></a>2 .坐标系变换：映射</h2><p>讨论不同坐标系之间来回变换的数学工具，那么在这里的所有例子中都是&#x3D;&#x3D;从 B 到 A 的映射&#x3D;&#x3D;，也就是&#x3D;&#x3D;已知 B 中的坐标和映射关系，求解 A中的坐标&#x3D;&#x3D;</p>
+<blockquote>
+<p>而注意到：这些映射（比如矩阵或矢量）的坐标都是相对于 A 来写的！因为最终都是要转换到 A 坐标系中。可以简单来记住，&#x3D;&#x3D;往哪个坐标系中换，就用哪个坐标系中的坐标来写变换&#x3D;&#x3D;</p>
+</blockquote>
+<h4 id="2-1-平移映射"><a href="#2-1-平移映射" class="headerlink" title="2.1. 平移映射"></a>2.1. 平移映射</h4><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="../note_pic/image-20230828195617454.png"
+                      alt="image-20230828195617454" style="zoom:50%;" 
+                >
+
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/../note_pic/image-20230828195702811.png"
+                      alt="image-20230828195702811"
+                ></p>
+<p>其中的矢量代表着从 A 的原点指向 B 的原点的矢量</p>
+<h4 id="2-2-旋转映射"><a href="#2-2-旋转映射" class="headerlink" title="2.2. 旋转映射"></a>2.2. 旋转映射</h4><p>前一节已经过用旋转矩阵来描述姿态的方法，那么要求矢量 P 在 A 中的定义的话，不妨从各个分量来看</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="../note_pic/image-20230828200654996.png"
+                      alt="image-20230828200654996" style="zoom: 67%;" 
+                >
+
+<p>所以，可用旋转矩阵将其简化写成</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="../note_pic/image-20230828201357173.png"
+                      alt="image-20230828201357173" style="zoom:67%;" 
+                >
+
+<blockquote>
+<p>注意点：</p>
+<ol>
+<li>在做变换时，都是矩阵左乘，所以当多个矩阵（多次变换）同时作用于矢量时，越靠右的矩阵越先发生作用</li>
+<li>在作用于相对于 B 坐标系的矢量时，旋转矩阵的 B 应该在下面（因为这个旋转矩阵要相对于 A 来写，所以 A 必须是左上标），看起来，&#x3D;&#x3D;被作用矢量的左上标与旋转矩阵的下面约去，只剩下旋转矩阵的上标&#x3D;&#x3D;</li>
+</ol>
+</blockquote>
+<h4 id="2-3-一般性变换"><a href="#2-3-一般性变换" class="headerlink" title="2.3. 一般性变换"></a>2.3. 一般性变换</h4><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="../note_pic/image-20230828202311015.png"
+                      alt="image-20230828202311015" style="zoom:50%;" 
+                >
+
+<p>一般性变换，相当于既有平移，也有旋转。</p>
+<p>那么总体的思路为  B  –&gt; 中间坐标系（姿态与 A 相同，原点与 B 重合） –&gt; A  ，也就是说&#x3D;&#x3D;先旋转，再平移&#x3D;&#x3D;</p>
+<blockquote>
+<p>前提是平移矢量是相对 A 来写的，如果是相对于 B 来写的话那就先平移再旋转</p>
+</blockquote>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/../note_pic/image-20230828202325114.png"
+                      alt="image-20230828202325114"
+                ></p>
+<p>为了将形式变得更好看，不妨将其扩充为四维矩阵算子，将其称为齐次变换矩阵</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/../note_pic/image-20230828202424755.png"
+                      alt="image-20230828202424755"
+                ></p>
+<blockquote>
+<p>该矩阵表达的含义与前式完全相同，其中左上角3*3分块存储旋转信息，右上角3*1分块存储平移信息</p>
+</blockquote>
+<h2 id="3-算子"><a href="#3-算子" class="headerlink" title="3 .算子"></a>3 .算子</h2><p>算子：用于坐标系间点的映射的通用数学表达式称为算子，也就是将原先的映射给写成 统一的形式</p>
+<h4 id="3-1-平移算子"><a href="#3-1-平移算子" class="headerlink" title="3.1. 平移算子"></a>3.1. 平移算子</h4><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="../note_pic/image-20230828203409630.png"
+                      alt="image-20230828203409630" style="zoom: 67%;" 
+                >
+
+<p>那么 $D_{Q}(q)$ 这一算子就代表着 将被操作矢量沿着 Q 矢量的方向移动 q 个单位长度</p>
+<h4 id="3-2-旋转算子"><a href="#3-2-旋转算子" class="headerlink" title="3.2. 旋转算子"></a>3.2. 旋转算子</h4><p>值得注意的是，旋转算子与旋转矩阵的区别在于，旋转算子是在同一坐标系中的操作，将矢量1变成矢量2，而旋转矩阵则代表不同坐标系之间的变换</p>
+<p>这是旋转矩阵的表达：</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/../note_pic/image-20230828204227821.png"
+                      alt="image-20230828204227821"
+                ></p>
+<p>这是算子的表达：</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/../note_pic/image-20230828204251160.png"
+                      alt="image-20230828204251160"
+                ></p>
+<p>而虽然这一形式很不错，但没有算子 那种“根据参考量实现变换”的感觉，所以将旋转算子正式定义为</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="../note_pic/image-20230828205240684.png"
+                      alt="image-20230828205240684" style="zoom: 50%;" 
+                >
+
+<h4 id="3-3-变换算子"><a href="#3-3-变换算子" class="headerlink" title="3.3.变换算子"></a>3.3.变换算子</h4><p>个人理解是，这里的算子是用坐标系的变换得出来的，再将其作用于矢量就可将其进行变换</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="../note_pic/image-20230828211001845.png"
+                      alt="image-20230828211001845" style="zoom:50%;" 
+                >
+
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="../note_pic/image-20230828211035471.png"
+                      alt="image-20230828211035471" style="zoom: 50%;" 
+                >
+
+<h2 id="4-变换的运算"><a href="#4-变换的运算" class="headerlink" title="4 .变换的运算"></a>4 .变换的运算</h2><h4 id="4-1-复合变换"><a href="#4-1-复合变换" class="headerlink" title="4.1.复合变换"></a>4.1.复合变换</h4><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="../note_pic/image-20230828211202951.png"
+                      alt="image-20230828211202951" style="zoom:50%;" 
+                >
+
+<p>已知 C 中坐标，求A中坐标</p>
+<p>思路：  C -&gt; B -&gt;A</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="../note_pic/image-20230828211415585.png"
+                      alt="image-20230828211415585" style="zoom:50%;" 
+                >
+
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="../note_pic/image-20230828211424050.png"
+                      alt="image-20230828211424050" style="zoom:50%;" 
+                >
+
+<p>从直观上理解，从 C 坐标系变换到 A 坐标系，旋转的部分直接依次操作就行，而平移的部分只要记住用 A 来表示就行</p>
+<h4 id="4-2-逆变换"><a href="#4-2-逆变换" class="headerlink" title="4.2.逆变换"></a>4.2.逆变换</h4><p>若已知了从 B 到 A 的变换，如何求 从 A 到 B 的变换</p>
+<p>回想到之前的  [正向变换思路](#2.3. 一般性变换)，也就是先旋转再平移，那么在逆变换中只要反过来就行。</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/../note_pic/image-20230828212801764.png"
+                      alt="image-20230828212801764"
+                ></p>
+<p>先逆向旋转，再平移 $-P_{BORG}$。注意，由于我们现在是要往 B 里面转换，所以这个 $-P_{BORG}$ 也需要变换到 B 中去，所以要加上前面的矩阵</p>
+<h2 id="5-变换方程"><a href="#5-变换方程" class="headerlink" title="5 . 变换方程"></a>5 . 变换方程</h2><p>对于使用多种变换路径实现同一变换，就可以建立起这些变换之间的关系</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="../note_pic/image-20230828213056055.png"
+                      alt="image-20230828213056055" style="zoom:50%;" 
+                >
+
+<p>对于上图就有：</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/../note_pic/image-20230828213108921.png"
+                      alt="image-20230828213108921"
+                ></p>
+<p>那么在已知其中四个变换时，第五个变换就可以在此求出</p>
+<h2 id="6-其他姿态描述（减少自由度的尝试）"><a href="#6-其他姿态描述（减少自由度的尝试）" class="headerlink" title="6 .其他姿态描述（减少自由度的尝试）"></a>6 .其他姿态描述（减少自由度的尝试）</h2><h4 id="6-1-理论基础"><a href="#6-1-理论基础" class="headerlink" title="6.1.理论基础"></a>6.1.理论基础</h4><ol>
+<li><h5 id="从线性代数角度考虑"><a href="#从线性代数角度考虑" class="headerlink" title="从线性代数角度考虑"></a>从线性代数角度考虑</h5>由于凯莱公式，任何一个正交阵R都存在一个反对称阵使得</li>
+</ol>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="../note_pic/image-20230829190433519.png"
+                      alt="image-20230829190433519" style="zoom:67%;" 
+                >
+
+<p>而三阶的反对称阵就只需要三个参数就可以描述</p>
+<ol start="2">
+<li><h5 id="直接从变换矩阵的角度看"><a href="#直接从变换矩阵的角度看" class="headerlink" title="直接从变换矩阵的角度看"></a>直接从变换矩阵的角度看</h5></li>
+</ol>
+<p>对于旋转矩阵 $R &#x3D; (X,Y,Z)$ ，这三个矢量构成规范正交基，所以存在 6 个约束条件：</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="../note_pic/image-20230829190827671.png"
+                      alt="image-20230829190827671" style="zoom:50%;" 
+                >
+
+<p>相对于原先的九元方程多了6个约束，就可以消去 6 个约束，所以真正独立的参数只有三个</p>
+<blockquote>
+<p>使用最经济的参数来表示变换的主要难度在于旋转，因为旋转是不满足交换律的</p>
+</blockquote>
+<h4 id="6-2-X-Y-Z-固定角"><a href="#6-2-X-Y-Z-固定角" class="headerlink" title="6.2. X-Y-Z 固定角"></a>6.2. X-Y-Z 固定角</h4><p>&#x3D;&#x3D;描述方法&#x3D;&#x3D;：</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/../note_pic/image-20230829191403978.png"
+                      alt="image-20230829191403978"
+                ></p>
+<blockquote>
+<p>特点是都绕着固定参考系 A 的轴来旋转，所以称之为固定角法，而通常把他们定义为回转角、俯仰角、偏转角（注意在别处这些名称可能特指别的量）</p>
+</blockquote>
+<p>&#x3D;&#x3D;正问题&#x3D;&#x3D;：已知角度，求变换矩阵</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="../note_pic/image-20230829191608514.png"
+                      alt="image-20230829191608514" style="zoom:50%;" 
+                >
+
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="../note_pic/image-20230829191619373.png"
+                      alt="image-20230829191619373" style="zoom:50%;" 
+                >
+
+<blockquote>
+<p>值得注意的是 $ R_{Y}(\beta)$ 副对角线上元素的符号与其他几个变换的区别！</p>
+</blockquote>
+<p>&#x3D;&#x3D;逆问题&#x3D;&#x3D;：已知变换矩阵，求解各个角度</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="../note_pic/image-20230829191735365.png"
+                      alt="image-20230829191735365" style="zoom:50%;" 
+                >
+
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="../note_pic/image-20230829191745595.png"
+                      alt="image-20230829191745595" style="zoom:50%;" 
+                >
+
+<blockquote>
+<p>这里的Atan2()函数有其特殊定义</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/../note_pic/image-20230829191830959.png"
+                      alt="image-20230829191830959"
+                ></p>
+</blockquote>
+<h4 id="6-3-Z-Y-X欧拉角"><a href="#6-3-Z-Y-X欧拉角" class="headerlink" title="6.3.Z-Y-X欧拉角"></a>6.3.Z-Y-X欧拉角</h4><p>&#x3D;&#x3D;描述方法&#x3D;&#x3D;：</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/../note_pic/image-20230829192631548.png"
+                      alt="image-20230829192631548"
+                ></p>
+<blockquote>
+<p>特别之处在于是绕着自己旋转后的轴来进行下一步旋转，所以存在万向锁问题，这里的三个角就被成为欧拉角</p>
+</blockquote>
+<p>&#x3D;&#x3D;正问题&#x3D;&#x3D;：</p>
+<p>由于每次的旋转都是按照当前坐标系的主轴来进行，所以相当于存在着两个中间坐标系</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="../note_pic/image-20230829192917685.png"
+                      alt="image-20230829192917685" style="zoom:67%;" 
+                >
+
+<blockquote>
+<p>&#x3D;&#x3D;此处矩阵的顺序与固定角表示法有所区别，原因在于：固定角法始终用的是 A 中的坐标，所以从操作上来说相当于把B的基底用 A 中的坐标表示出来，所以先进行的旋转在右边接近被操作矢量那里；而欧拉角法则是通过中间坐标系把 B 坐标系整体一步步找回到 A 坐标系中去，所以最后发生的旋转要放在最右边接近被操作矢量那里，有种一步步回退到 A 坐标系的感觉&#x3D;&#x3D;</p>
+</blockquote>
+<p>而不难得出：</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="../note_pic/image-20230829192951707.png"
+                      alt="image-20230829192951707" style="zoom:67%;" 
+                >
+
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="../note_pic/image-20230829193023060.png"
+                      alt="image-20230829193023060" style="zoom: 67%;" 
+                >
+
+<p>不难这一表达式与X-Y-Z固定角法的表达式一样（虽然规定的角度顺寻不一样）</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/../note_pic/image-20230829195857059.png"
+                      alt="image-20230829195857059"
+                ></p>
+<h4 id="6-4-Z-Y-Z欧拉角"><a href="#6-4-Z-Y-Z欧拉角" class="headerlink" title="6.4.Z-Y-Z欧拉角"></a>6.4.Z-Y-Z欧拉角</h4><p>描述方法：与 Z-Y-X欧拉角相似，只不过最后用的是 Z 轴</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/../note_pic/image-20230829200010259.png"
+                      alt="image-20230829200010259"
+                ></p>
+<p>&#x3D;&#x3D;正问题&#x3D;&#x3D;（已知角度求变换）：</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/../note_pic/image-20230829200024119.png"
+                      alt="image-20230829200024119"
+                ></p>
+<p>&#x3D;&#x3D;逆问题&#x3D;&#x3D;（已知变换求角度）</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="../note_pic/image-20230829200137622.png"
+                      alt="image-20230829200137622" style="zoom:67%;" 
+                >
+
+<h4 id="6-5-其他转角组合"><a href="#6-5-其他转角组合" class="headerlink" title="6.5.其他转角组合"></a>6.5.其他转角组合</h4><p>使用固定角或者欧拉角的方式去进行操作，只不过选用的轴不一样而已</p>
+<h4 id="6-6-等效角度-轴线表示法"><a href="#6-6-等效角度-轴线表示法" class="headerlink" title="6.6.等效角度-轴线表示法"></a>6.6.等效角度-轴线表示法</h4><p>由于欧拉定理，也即如果一根轴的方向是一般方向（而不是主轴方向），那么任何姿态都可以通过适当选择轴和角度来得到 <u>工大理力2 P128</u></p>
+<p>描述方法：</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="../note_pic/image-20230829200458535.png"
+                      alt="image-20230829200458535" style="zoom:67%;" 
+                >
+
+<blockquote>
+<p>因为 K 矢量的长度是 1，所以只需要两个独立参数即可描述 K，总参数量还是 3  个</p>
+</blockquote>
+<p>&#x3D;&#x3D;正问题&#x3D;&#x3D;（已知矢量和角度求变换矩阵）</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="../note_pic/image-20230829200804566.png"
+                      alt="image-20230829200804566" style="zoom:50%;" 
+                >
+
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="../note_pic/image-20230829200817259.png"
+                      alt="image-20230829200817259" style="zoom:50%;" 
+                >
+
+<p>&#x3D;&#x3D;逆问题&#x3D;&#x3D; （已知矩阵求矢量和角度）</p>
+<p>较为复杂，此处不表，以后另开新文</p>
+<blockquote>
+<p>如果 B 坐标系绕不过原点的矢量旋转得到 A ，那么若已知矢量和转角，要求 B 在 A  中描述。只需要将 A 移动到原点与旋转矢量起点重合的$A^{‘}$ ，将 B 移动到原点与旋转矢量起点重合的$B^{‘}$ ，然后给$A^{‘}$和$B^{‘}$进行旋转变换即可</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="../note_pic/image-20230829201406137.png"
+                      alt="image-20230829201406137" style="zoom:67%;" 
+                >
+</blockquote>
+<h4 id="6-7-欧拉参数与四元数"><a href="#6-7-欧拉参数与四元数" class="headerlink" title="6.7.欧拉参数与四元数"></a>6.7.欧拉参数与四元数</h4><p>超出本书讨论范围，另开新文</p>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题:</strong> Chapter 2 空间描述与变换</li>
+        <li><strong>作者:</strong> POCRO</li>
+        <li><strong>创建于
+                :</strong> 2023-09-02 17:26:56</li>
+        
+            <li>
+                <strong>更新于
+                    :</strong> 2023-09-03 11:53:24
+            </li>
+        
+        <li>
+            <strong>链接:</strong> https://pocro.github.io/2023/09/02/chapter2空间描述与变换/
+        </li>
+        <li>
+            <strong>
+                版权声明:
+            </strong>
+            
+            本文章采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a> 进行许可。
+            
+
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box">
+                
+                    <li class="tag-item">
+                        <a href="/tags/%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%AD%A6%E5%AF%BC%E8%AE%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">#机器人学导论学习笔记</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                        rel="prev"
+                        href="/2023/09/02/Typora%E7%AC%94%E8%AE%B0/"
+                        >
+                            <span class="left arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">Typora 笔记</span>
+                                <span class="post-nav-item">上一篇</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+            </div>
+        
+
+
+        
+            <div class="comment-container">
+                <div class="comments-container pjax">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fa-solid fa-comments"></i>&nbsp;评论
+    </div>
+    
+
+        
+            
+ 
+    <div id="waline"></div>
+    <script type="module"  data-swup-reload-script>
+        import { init } from 'https://evan.beee.top/js/waline.mjs';
+
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://example.example.com',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+            });
+        }
+
+        if ('true') {
+            const loadWalineTimeout = setTimeout(() => {
+                loadWaline();
+                clearTimeout(loadWalineTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadWaline);
+        }
+        
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+
+    
+        <div class="toc-content-container">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">此页目录</div>
+        <div class="page-title">Chapter 2 空间描述与变换</div>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%85%B3%E4%BA%8E%E6%8F%8F%E8%BF%B0"><span class="nav-text">1 .关于描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%9D%90%E6%A0%87%E7%B3%BB%E5%8F%98%E6%8D%A2%EF%BC%9A%E6%98%A0%E5%B0%84"><span class="nav-text">2 .坐标系变换：映射</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E7%AE%97%E5%AD%90"><span class="nav-text">3 .算子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%8F%98%E6%8D%A2%E7%9A%84%E8%BF%90%E7%AE%97"><span class="nav-text">4 .变换的运算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E5%8F%98%E6%8D%A2%E6%96%B9%E7%A8%8B"><span class="nav-text">5 . 变换方程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E5%85%B6%E4%BB%96%E5%A7%BF%E6%80%81%E6%8F%8F%E8%BF%B0%EF%BC%88%E5%87%8F%E5%B0%91%E8%87%AA%E7%94%B1%E5%BA%A6%E7%9A%84%E5%B0%9D%E8%AF%95%EF%BC%89"><span class="nav-text">6 .其他姿态描述（减少自由度的尝试）</span></a></li></ol>
+
+    </div>
+</div>
+        </div>
+    
+</div>
+
+
+
+                
+
+            </div>
+
+            
+
+        </div>
+
+        <div class="main-content-footer">
+            <footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2023</span>
+              -
+            
+            2023&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">POCRO</a>
+        </div>
+        
+            <script data-swup-reload-script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.4.4</a></span>
+        </div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days" ></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="article-tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fa-regular fa-comments"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-side-tools-container">
+        <div class="side-tools-container">
+    <ul class="hidden-tools-list">
+        <li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+            <i class="fa-regular fa-magnifying-glass-plus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+            <i class="fa-regular fa-magnifying-glass-minus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-expand-width flex justify-center items-center">
+            <i class="fa-regular fa-expand"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+            <i class="fa-regular fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+            <i class="fa-regular fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="visible-tools-list">
+        <li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+            <i class="fa-regular fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fa-solid fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa-solid fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+    
+<script src="/js/libs/Swup.min.js"></script>
+
+<script src="/js/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/libs/SwupScrollPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+        ],
+        containers: ["#swup"],
+    });
+
+    swup.hooks.on("page:view", () => {
+        Global.refresh();
+    });
+
+    // if (document.readyState === "complete") {
+    //
+    // } else {
+    //     document.addEventListener("DOMContentLoaded", () => init());
+    // }
+</script>
+
+
+
+
+
+
+<script src="/js/utils.js" type="module"></script>
+
+<script src="/js/main.js" type="module"></script>
+
+<script src="/js/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/js/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/js/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/js/layouts/categoryList.js" type="module"></script>
+
+
+
+    
+<script src="/js/tools/localSearch.js"></script>
+
+
+
+
+    
+<script src="/js/tools/codeBlock.js"></script>
+
+
+
+
+    
+<script src="/js/layouts/lazyload.js"></script>
+
+
+
+
+    
+<script src="/js/tools/runtime.js"></script>
+
+    
+<script src="/js/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/libs/Typed.min.js"></script>
+
+  
+<script src="/js/plugins/typed.js"></script>
+
+
+
+
+
+
+
+<div class="post-scripts" data-swup-reload-script>
+    
+        
+<script src="/js/libs/anime.min.js"></script>
+
+        
+<script src="/js/tools/tocToggle.js" type="module"></script>
+
+<script src="/js/layouts/toc.js" type="module"></script>
+
+<script src="/js/plugins/tabs.js" type="module"></script>
+
+    
+</div>
+
+
+</body>
+</html>
