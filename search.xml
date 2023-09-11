@@ -75,34 +75,40 @@
     <url>/2023/09/02/C%E8%AF%AD%E8%A8%80%E7%9A%84%E5%A4%9A%E6%96%87%E4%BB%B6%E7%BC%96%E7%A8%8B/</url>
     <content><![CDATA[<ol>
 <li><p>多文件编程原理</p>
-<p>C++在编译多文件程序时，首先将每一个文件单独编译，然后通过链接将各个文件组合成一个可执行程序</p>
-<p>可以将函数的声明放到头文件中去，而在主文件中引用头文件就相当于将头文件中内容拷贝到主文件中再进行编译</p>
-<p><a class="link"   href="https://blog.csdn.net/chen_z_p/article/details/105352547" >我终于把C++多文件编程理解透彻了-CSDN博客 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p> C++在编译多文件程序时，首先将每一个文件单独编译，然后通过链接将各个文件组合成一个可执行程序</p>
+<p> 可以将函数的声明放到头文件中去，而在主文件中引用头文件就相当于将头文件中内容拷贝到主文件中再进行编译</p>
+<p> <a class="link"   href="https://blog.csdn.net/chen_z_p/article/details/105352547" >我终于把C++多文件编程理解透彻了-CSDN博客 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
 </li>
 <li><p>关于头文件</p>
-<p>后缀为 .h 的文件，&#x3D;&#x3D;记得将其放置在条件编译预处理语句中&#x3D;&#x3D;，防止因为依赖关系被多次包含</p>
+<p> 后缀为 .h 的文件，<mark>记得将其放置在条件编译预处理语句中 </mark>，防止因为依赖关系被多次包含</p>
 </li>
 </ol>
-<p>​		函数声明：显然应该放在头文件中，前面很清楚。<br>​		类定义、结构定义：用函数定义的逻辑想，似乎不能放在头文件中。但它&#x3D;&#x3D;应该放在头文件&#x3D;&#x3D;。第一，每个cpp文件应该有一个定义，	在编译的时候编译器才知道怎么为对象分配空间。其次，类型定义不会在内存上分配空间。  </p>
+<p>​		函数声明：显然应该放在头文件中，前面很清楚。<br>​		类定义、结构定义：用函数定义的逻辑想，似乎不能放在头文件中。但它<mark>应该放在头文件</mark>。第一，每个cpp文件应该有一个定义，	在编译的时候编译器才知道怎么为对象分配空间。其次，类型定义不会在内存上分配空间。  </p>
 <p>​		模板函数：编译器必须在编译的时候根据函数模板实例化对应的函数，所以应该放在头文件。   </p>
 <p>​		内联函数：编译期间被插到调用位置，所以也要放在头文件。</p>
-<p>​		&#x3D;&#x3D;函数定义：不要！&#x3D;&#x3D;C++规定一个程序同签名的函数只能有一个定义。如果你把函数定义放在头文件，并且同一个程序的多个cpp	文件包含了该头文件，这样，在链接的时候会发现多个定义版本，链接报错。</p>
-<p>​		&#x3D;&#x3D;变量定义：不要！&#x3D;&#x3D;与上面类似，被多个文件包含的时候会出现多次定义同一个变量，链接错误。但是，static变量和extern变量 	可以，以及宏定义的常量，因为这些在多个文件出现并不会出错。</p>
+<p>​		<mark>函数定义：不要！</mark>C++规定一个程序同签名的函数只能有一个定义。如果你把函数定义放在头文件，并且同一个程序的多个cpp	文件包含了该头文件，这样，在链接的时候会发现多个定义版本，链接报错。</p>
+<p>​		<mark>变量定义：不要！</mark>与上面类似，被多个文件包含的时候会出现多次定义同一个变量，链接错误。但是，static变量和extern变量 	可以，以及宏定义的常量，因为这些在多个文件出现并不会出错。</p>
 <ol start="3">
 <li><p>使用命令行运行多文件项目</p>
-<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line">g++ main.cpp fun.cpp -o out   #列举所有要编译的文件</span><br></pre></td></tr></table></figure></div>
-
+ <div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line">g++ main.cpp fun.cpp -o out   #列举所有要编译的文件</span><br></pre></td></tr></table></figure></div>
 
 </li>
 <li><p>使用  vscode 编译多文件项目</p>
-<p>在安装好一众插件的 vscode 环境中，在主文件开头使用 #include “” 的方式来引入头文件和预编译文件</p>
-<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*实例项目*/</span></span><br><span class="line"><span class="comment">// main.c   主文件</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;print.h&quot;</span>      <span class="comment">//这个里面放所有的函数声明和库</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;print.c&quot;</span>      <span class="comment">//这里面放所有的函数定义</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    Print(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//fuction.c  用来放所有函数的定义</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;function.h&quot;</span>		<span class="comment">//记得要引入头文件</span></span></span><br><span class="line"><span class="type">void</span> <span class="title function_">Print</span><span class="params">(<span class="type">int</span> i)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>, i+<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//function.h	这个头文件用来声明函数，应用包</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span>          </span></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> HEAD_H					<span class="comment">//条件编译预处理语句</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> HEAD_H</span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">Print</span><span class="params">(<span class="type">int</span> i)</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br></pre></td></tr></table></figure></div>
+<p> 在安装好一众插件的 vscode 环境中，在主文件开头使用 #include “” 的方式来引入头文件和预编译文件</p>
+ <div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*实例项目*/</span></span><br><span class="line"><span class="comment">// main.c   主文件</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;print.h&quot;</span>      <span class="comment">//这个里面放所有的函数声明和库</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;print.c&quot;</span>      <span class="comment">//这里面放所有的函数定义</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    Print(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//fuction.c  用来放所有函数的定义</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;function.h&quot;</span>		<span class="comment">//记得要引入头文件</span></span></span><br><span class="line"><span class="type">void</span> <span class="title function_">Print</span><span class="params">(<span class="type">int</span> i)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>, i+<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//function.h	这个头文件用来声明函数，应用包</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span>          </span></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> HEAD_H					<span class="comment">//条件编译预处理语句</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> HEAD_H</span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">Print</span><span class="params">(<span class="type">int</span> i)</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br></pre></td></tr></table></figure></div>
 
-<p>最后直接在主文件中运行就可以了</p>
+<p> 最后直接在主文件中运行就可以了</p>
 </li>
 <li><p>使用 cmake 编译多文件项目</p>
 </li>
+<li><p>多文件编程中 extern 的使用</p>
+</li>
 </ol>
+<p>extern表示改变量是定义在其他文件中的，在多文件情况下最标准的方式是：</p>
+<p>在 .c文件中声明变量， 在其对应的 .h 文件中使用extern声明变量，这样其他地方要用这个变量时只需要 include 一下这个 .h文件即可</p>
+<blockquote>
+<p>注意！在.c中声明变量是可以顺便初始化值，但extern的时候就不要这么干了不然会显示重复定义！</p>
+</blockquote>
 ]]></content>
       <tags>
         <tag>C语言</tag>
@@ -157,7 +163,7 @@
   <entry>
     <title>Chapter 2 空间描述与变换</title>
     <url>/2023/09/02/chapter2%E7%A9%BA%E9%97%B4%E6%8F%8F%E8%BF%B0%E4%B8%8E%E5%8F%98%E6%8D%A2/</url>
-    <content><![CDATA[<h2 id="1-关于描述"><a href="#1-关于描述" class="headerlink" title="1 .关于描述"></a>1 .关于描述</h2><p>&#x3D;&#x3D;位置描述&#x3D;&#x3D;：建立坐标系后就可以用一个3*1的位置矢量来给世界坐标系中的任何点定位，其中在本书中用左上标来指明所在的参考系</p>
+    <content><![CDATA[<h2 id="1-关于描述"><a href="#1-关于描述" class="headerlink" title="1 .关于描述"></a>1 .关于描述</h2><p><mark>位置描述</mark>：建立坐标系后就可以用一个3*1的位置矢量来给世界坐标系中的任何点定位，其中在本书中用左上标来指明所在的参考系</p>
 <img  
                      lazyload
                      src="/images/loading.svg"
@@ -165,7 +171,7 @@
                      
                 >
 
-<p>&#x3D;&#x3D;姿态描述&#x3D;&#x3D;：为了描述物体的姿态，我们将在物体上固定一个坐标系 B 并给出此坐标系相对于原坐标系 A 的姿态，那么为了描述这两种坐标系之间的关系，显然就要用到矩阵来操作</p>
+<p><mark>姿态描述<mark>：为了描述物体的姿态，我们将在物体上固定一个坐标系 B 并给出此坐标系相对于原坐标系 A 的姿态，那么为了描述这两种坐标系之间的关系，显然就要用到矩阵来操作</p>
 <p>下面建立 B 相对于 A 的矩阵变换</p>
 <p>将 B 的列单位向量（用 A 中坐标表示）组成<u>旋转矩阵</u></p>
 <img  
@@ -197,24 +203,17 @@
                       alt="image-20230828200422685" style="zoom:50%;" 
                 >
 
-<p>&#x3D;&#x3D;位姿描述&#x3D;&#x3D; </p>
+<p><mark>位姿描述</mark> </p>
 <p>在机器人学中，将位置与姿态统一称为 位姿</p>
 <blockquote>
 <p>可将 位置 看作旋转矩阵为单位阵的 特殊位姿，将 姿态 看作位置矢量为零矢量的 特殊位姿</p>
 </blockquote>
 <p>而位姿可以用两个坐标系之间的相对关系来描述，也就是矩阵</p>
-<h2 id="2-坐标系变换：映射"><a href="#2-坐标系变换：映射" class="headerlink" title="2 .坐标系变换：映射"></a>2 .坐标系变换：映射</h2><p>讨论不同坐标系之间来回变换的数学工具，那么在这里的所有例子中都是&#x3D;&#x3D;从 B 到 A 的映射&#x3D;&#x3D;，也就是&#x3D;&#x3D;已知 B 中的坐标和映射关系，求解 A中的坐标&#x3D;&#x3D;</p>
+<h2 id="2-坐标系变换：映射"><a href="#2-坐标系变换：映射" class="headerlink" title="2 .坐标系变换：映射"></a>2 .坐标系变换：映射</h2><p>讨论不同坐标系之间来回变换的数学工具，那么在这里的所有例子中都是<mark>从 B 到 A 的映射</mark>，也就是<mark>已知 B 中的坐标和映射关系，求解 A中的坐标</mark></p>
 <blockquote>
-<p>而注意到：这些映射（比如矩阵或矢量）的坐标都是相对于 A 来写的！因为最终都是要转换到 A 坐标系中。可以简单来记住，&#x3D;&#x3D;往哪个坐标系中换，就用哪个坐标系中的坐标来写变换&#x3D;&#x3D;</p>
+<p>而注意到：这些映射（比如矩阵或矢量）的坐标都是相对于 A 来写的！因为最终都是要转换到 A 坐标系中。可以简单来记住，<mark>往哪个坐标系中换，就用哪个坐标系中的坐标来写变换</mark></p>
 </blockquote>
-<h4 id="2-1-平移映射"><a href="#2-1-平移映射" class="headerlink" title="2.1. 平移映射"></a>2.1. 平移映射</h4><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="../note_pic/image-20230828195617454.png"
-                      alt="image-20230828195617454" style="zoom:50%;" 
-                >
-
-<p><img  
+<h4 id="2-1-平移映射"><a href="#2-1-平移映射" class="headerlink" title="2.1. 平移映射"></a>2.1. 平移映射</h4><p><img  
                      lazyload
                      src="/images/loading.svg"
                      data-src="/../note_pic/image-20230828195702811.png"
@@ -226,7 +225,7 @@
                      lazyload
                      src="/images/loading.svg"
                      data-src="../note_pic/image-20230828200654996.png"
-                      alt="image-20230828200654996" style="zoom: 67%;" 
+                      
                 >
 
 <p>所以，可用旋转矩阵将其简化写成</p>
@@ -241,7 +240,7 @@
 <p>注意点：</p>
 <ol>
 <li>在做变换时，都是矩阵左乘，所以当多个矩阵（多次变换）同时作用于矢量时，越靠右的矩阵越先发生作用</li>
-<li>在作用于相对于 B 坐标系的矢量时，旋转矩阵的 B 应该在下面（因为这个旋转矩阵要相对于 A 来写，所以 A 必须是左上标），看起来，&#x3D;&#x3D;被作用矢量的左上标与旋转矩阵的下面约去，只剩下旋转矩阵的上标&#x3D;&#x3D;</li>
+<li>在作用于相对于 B 坐标系的矢量时，旋转矩阵的 B 应该在下面（因为这个旋转矩阵要相对于 A 来写，所以 A 必须是左上标），看起来，<mark>被作用矢量的左上标与旋转矩阵的下面约去，只剩下旋转矩阵的上标</mark></li>
 </ol>
 </blockquote>
 <h4 id="2-3-一般性变换"><a href="#2-3-一般性变换" class="headerlink" title="2.3. 一般性变换"></a>2.3. 一般性变换</h4><img  
@@ -252,7 +251,7 @@
                 >
 
 <p>一般性变换，相当于既有平移，也有旋转。</p>
-<p>那么总体的思路为  B  –&gt; 中间坐标系（姿态与 A 相同，原点与 B 重合） –&gt; A  ，也就是说&#x3D;&#x3D;先旋转，再平移&#x3D;&#x3D;</p>
+<p>那么总体的思路为  B  –&gt; 中间坐标系（姿态与 A 相同，原点与 B 重合） –&gt; A  ，也就是说<mark>先旋转，再平移</mark></p>
 <blockquote>
 <p>前提是平移矢量是相对 A 来写的，如果是相对于 B 来写的话那就先平移再旋转</p>
 </blockquote>
@@ -394,7 +393,7 @@
 <blockquote>
 <p>使用最经济的参数来表示变换的主要难度在于旋转，因为旋转是不满足交换律的</p>
 </blockquote>
-<h4 id="6-2-X-Y-Z-固定角"><a href="#6-2-X-Y-Z-固定角" class="headerlink" title="6.2. X-Y-Z 固定角"></a>6.2. X-Y-Z 固定角</h4><p>&#x3D;&#x3D;描述方法&#x3D;&#x3D;：</p>
+<h4 id="6-2-X-Y-Z-固定角"><a href="#6-2-X-Y-Z-固定角" class="headerlink" title="6.2. X-Y-Z 固定角"></a>6.2. X-Y-Z 固定角</h4><p><mark>描述方法<mark>：</p>
 <p><img  
                      lazyload
                      src="/images/loading.svg"
@@ -404,7 +403,7 @@
 <blockquote>
 <p>特点是都绕着固定参考系 A 的轴来旋转，所以称之为固定角法，而通常把他们定义为回转角、俯仰角、偏转角（注意在别处这些名称可能特指别的量）</p>
 </blockquote>
-<p>&#x3D;&#x3D;正问题&#x3D;&#x3D;：已知角度，求变换矩阵</p>
+<p><mark>正问题<mark>：已知角度，求变换矩阵</p>
 <img  
                      lazyload
                      src="/images/loading.svg"
@@ -422,7 +421,7 @@
 <blockquote>
 <p>值得注意的是 $ R_{Y}(\beta)$ 副对角线上元素的符号与其他几个变换的区别！</p>
 </blockquote>
-<p>&#x3D;&#x3D;逆问题&#x3D;&#x3D;：已知变换矩阵，求解各个角度</p>
+<p><mark>逆问题<mark>：已知变换矩阵，求解各个角度</p>
 <img  
                      lazyload
                      src="/images/loading.svg"
@@ -446,7 +445,7 @@
                       alt="image-20230829191830959"
                 ></p>
 </blockquote>
-<h4 id="6-3-Z-Y-X欧拉角"><a href="#6-3-Z-Y-X欧拉角" class="headerlink" title="6.3.Z-Y-X欧拉角"></a>6.3.Z-Y-X欧拉角</h4><p>&#x3D;&#x3D;描述方法&#x3D;&#x3D;：</p>
+<h4 id="6-3-Z-Y-X欧拉角"><a href="#6-3-Z-Y-X欧拉角" class="headerlink" title="6.3.Z-Y-X欧拉角"></a>6.3.Z-Y-X欧拉角</h4><p><mark>描述方法<mark>：</p>
 <p><img  
                      lazyload
                      src="/images/loading.svg"
@@ -456,7 +455,7 @@
 <blockquote>
 <p>特别之处在于是绕着自己旋转后的轴来进行下一步旋转，所以存在万向锁问题，这里的三个角就被成为欧拉角</p>
 </blockquote>
-<p>&#x3D;&#x3D;正问题&#x3D;&#x3D;：</p>
+<p><mark>正问题<mark>：</p>
 <p>由于每次的旋转都是按照当前坐标系的主轴来进行，所以相当于存在着两个中间坐标系</p>
 <img  
                      lazyload
@@ -466,7 +465,7 @@
                 >
 
 <blockquote>
-<p>&#x3D;&#x3D;此处矩阵的顺序与固定角表示法有所区别，原因在于：固定角法始终用的是 A 中的坐标，所以从操作上来说相当于把B的基底用 A 中的坐标表示出来，所以先进行的旋转在右边接近被操作矢量那里；而欧拉角法则是通过中间坐标系把 B 坐标系整体一步步找回到 A 坐标系中去，所以最后发生的旋转要放在最右边接近被操作矢量那里，有种一步步回退到 A 坐标系的感觉&#x3D;&#x3D;</p>
+<p><mark>此处矩阵的顺序与固定角表示法有所区别，原因在于：固定角法始终用的是 A 中的坐标，所以从操作上来说相当于把B的基底用 A 中的坐标表示出来，所以先进行的旋转在右边接近被操作矢量那里；而欧拉角法则是通过中间坐标系把 B 坐标系整体一步步找回到 A 坐标系中去，所以最后发生的旋转要放在最右边接近被操作矢量那里，有种一步步回退到 A 坐标系的感觉<mark></p>
 </blockquote>
 <p>而不难得出：</p>
 <img  
@@ -497,14 +496,14 @@
                      data-src="/../note_pic/image-20230829200010259.png"
                       alt="image-20230829200010259"
                 ></p>
-<p>&#x3D;&#x3D;正问题&#x3D;&#x3D;（已知角度求变换）：</p>
+<p><mark>正问题<mark>（已知角度求变换）：</p>
 <p><img  
                      lazyload
                      src="/images/loading.svg"
                      data-src="/../note_pic/image-20230829200024119.png"
                       alt="image-20230829200024119"
                 ></p>
-<p>&#x3D;&#x3D;逆问题&#x3D;&#x3D;（已知变换求角度）</p>
+<p><mark>逆问题<mark>（已知变换求角度）</p>
 <img  
                      lazyload
                      src="/images/loading.svg"
@@ -525,7 +524,7 @@
 <blockquote>
 <p>因为 K 矢量的长度是 1，所以只需要两个独立参数即可描述 K，总参数量还是 3  个</p>
 </blockquote>
-<p>&#x3D;&#x3D;正问题&#x3D;&#x3D;（已知矢量和角度求变换矩阵）</p>
+<p><mark>正问题<mark>（已知矢量和角度求变换矩阵）</p>
 <img  
                      lazyload
                      src="/images/loading.svg"
@@ -540,7 +539,7 @@
                       alt="image-20230829200817259" style="zoom:50%;" 
                 >
 
-<p>&#x3D;&#x3D;逆问题&#x3D;&#x3D; （已知矩阵求矢量和角度）</p>
+<p><mark>逆问题<mark> （已知矩阵求矢量和角度）</p>
 <p>较为复杂，此处不表，以后另开新文</p>
 <blockquote>
 <p>如果 B 坐标系绕不过原点的矢量旋转得到 A ，那么若已知矢量和转角，要求 B 在 A  中描述。只需要将 A 移动到原点与旋转矢量起点重合的$A^{‘}$ ，将 B 移动到原点与旋转矢量起点重合的$B^{‘}$ ，然后给$A^{‘}$和$B^{‘}$进行旋转变换即可</p>
@@ -555,6 +554,101 @@
 ]]></content>
       <tags>
         <tag>机器人学导论学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CAN通讯</title>
+    <url>/2023/09/11/CAN%E9%80%9A%E8%AE%AF/</url>
+    <content><![CDATA[<ol>
+<li><h2 id="基本知识"><a href="#基本知识" class="headerlink" title="基本知识"></a>基本知识</h2></li>
+</ol>
+<p>通信分类 1. 串行 USART IIC SPI USB CAN 2. 并行 6800 8080 通信方式</p>
+<p>差分信号 隐形电平对应逻辑 1，两线压差为0，显性电平对应逻辑0，两线压差为2.5V   可以使外界干扰减到很小</p>
+<p>终端电阻：120欧 用于减少回波反射</p>
+<p>关于CAN的帧</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/../../../note/note_pic/image-20230821200627057.png"
+                      alt="image-20230821200627057"
+                ></p>
+<p>后三种帧是由硬件来完成的，重点关注前两者</p>
+<p>&#x3D;&#x3D;数据帧&#x3D;&#x3D;：《CAN入门书》  P24 </p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/../../../note/note_pic/image-20230821201332350.png"
+                      alt="image-20230821201332350"
+                ></p>
+<p>RTR段：判断是否是远程帧</p>
+<p>IDE：标识符选择位</p>
+<p>SRR：代替远程请求位</p>
+<p>DLC：给定数据长度</p>
+<p>CRC：校验段</p>
+<p>&#x3D;&#x3D;优先级的决定&#x3D;&#x3D;   《CAN入门书》 P33</p>
+<p>当总线空闲时最先发的获得发送权</p>
+<p>当多个单元同时开始发送时，从仲裁位的第一位开始仲裁，连续输出显性电平最多的单元可继续发送</p>
+<blockquote>
+<p>所以 ID 最小（也就是0最多）的优先级最高</p>
+</blockquote>
+<ol start="2">
+<li><h2 id="STM32中的CAN"><a href="#STM32中的CAN" class="headerlink" title="STM32中的CAN"></a>STM32中的CAN</h2></li>
+</ol>
+<p>如下图可见，CAN2不能控制筛选器，如果有CAN2的话，在使用CAN2之前一定要先使能 CAN1的时钟    <u>中文参考手册 P609</u></p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/../../../note/note_pic/image-20230821202142176-16944409121551.png"
+                      alt="image-20230821202142176"
+                ></p>
+<blockquote>
+<p>筛选器就是用来筛选有着固定ID的信息，减小总线负担</p>
+</blockquote>
+<p>CAN的配置</p>
+<h3 id="位时序（控制波特率）"><a href="#位时序（控制波特率）" class="headerlink" title="位时序（控制波特率）"></a>位时序（控制波特率）</h3><ol>
+<li><h4 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h4></li>
+</ol>
+<p><u>《CAN入门书》P40</u></p>
+<p>一个位相当于是一帧数据，控制位时序相当于就是控制一帧数据的时间长度，再将这个时间长度取倒数就得到了波特率。</p>
+<p>这些位都是由最小的时间单元组成，称为一个 time quantum，也就是 1tq</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/../../../note/note_pic/image-20230825210937747.png"
+                      alt="image-20230825210937747"
+                ></p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/../../../note/note_pic/image-20230825210953730-16944409251272.png"
+                      alt="image-20230825210953730"
+                ></p>
+<p>那么在实际程序中，就需要控制好这些位时序使得波特率正确</p>
+<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line">CAN_InitStructure.CAN_SJW=CAN_SJW_1tq;	<span class="comment">//重新同步跳跃宽度(Tsjw)为tsjw+1个时间单位 CAN_SJW_1tq~CAN_SJW_4tq</span></span><br><span class="line">CAN_InitStructure.CAN_BS1=CAN_BS1_9tq; <span class="comment">//Tbs1范围CAN_BS1_1tq ~CAN_BS1_16tq</span></span><br><span class="line">CAN_InitStructure.CAN_BS2=CAN_BS2_4tq;<span class="comment">//Tbs2范围CAN_BS2_1tq ~	CAN_BS2_8tq</span></span><br><span class="line">CAN_InitStructure.CAN_Prescaler = <span class="number">3</span>;  <span class="comment">//分频系数(Fdiv)为brp+1	</span></span><br></pre></td></tr></table></figure></div>
+
+<p>因为该板子上的CAN是挂载在 APB1 时钟上，分频就是 42Mhz，再分完频就是 14Mhz，所以一个 tp 就是 $\frac{1}{14Mhz}$，而在上述代码中设置了总共 14 个 tp，所以一个位的时间长度是 $\frac{1}{1Mhz}$ ，所以波特率就是 1Mhz</p>
+<ol start="2">
+<li><h4 id="关于采样点："><a href="#关于采样点：" class="headerlink" title="关于采样点："></a>关于采样点：</h4></li>
+</ol>
+<p>见<u>STM32F4中文参考手册 P622</u></p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/../../../note/note_pic/image-20230825211732467-16944409301473.png"
+                      alt="image-20230825211732467"
+                ></p>
+<p>由上图可以看到，SYNC_SEG 和 BS1 结束后为采样点，一般来说把采样点控制在 80% 左右比较合适</p>
+<h3 id="滤波器"><a href="#滤波器" class="headerlink" title="滤波器"></a>滤波器</h3><p>筛选器有标识符模式和掩码模式</p>
+<p>不管用不用滤波器都要配置好！</p>
+<ol start="3">
+<li><h2 id="用到的不错的视频和博客"><a href="#用到的不错的视频和博客" class="headerlink" title="用到的不错的视频和博客"></a>用到的不错的视频和博客</h2></li>
+</ol>
+<p><a class="link"   href="https://blog.csdn.net/XiaoXiaoPengBo/article/details/116206252?ops_request_misc=%7B%22request_id%22:%22163559744416780271593574%22,%22scm%22:%2220140713.130102334..%22%7D&request_id=163559744416780271593574&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-116206252.pc_search_result_control_group&utm_term=can&spm=1018.2226.3001.4187" >秀！靠这篇我竟然2天理解了CAN协议！实战STM32F4 CAN！_can通信协议简单理解_Wireless_Link的博客-CSDN博客 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p><a class="link"   href="https://www.bilibili.com/video/BV1Dq4y1J7WA/?from=search&seid=54886702141269529&spm_id_from=333.337.0.0" >CAN通信速成！从会到不会~_哔哩哔哩_bilibili <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p><a class="link"   href="https://blog.csdn.net/weixin_44793491/article/details/107298426" >CAN通信知识梳理及在Stm32上的应用（HAL库）_冬瓜~的博客-CSDN博客 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+]]></content>
+      <tags>
+        <tag>嵌入式 STM32 CAN</tag>
       </tags>
   </entry>
 </search>
