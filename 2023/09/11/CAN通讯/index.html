@@ -18,25 +18,32 @@
     <meta name="googlebot" content="index,follow">
     <meta name="revisit-after" content="1 days">
     
-        <meta name="description" content="基本知识  通信分类 1. 串行 USART IIC SPI USB CAN 2. 并行 6800 8080 通信方式 差分信号 隐形电平对应逻辑 1，两线压差为0，显性电平对应逻辑0，两线压差为2.5V   可以使外界干扰减到很小 终端电阻：120欧 用于减少回波反射 关于CAN的帧  后三种帧是由硬件来完成的，重点关注前两者 &#x3D;&#x3D;数据帧&#x3D;&#x3D;：《CAN入">
+        <meta name="description" content="不错的参考博客秀！靠这篇我竟然2天理解了CAN协议！实战STM32F4 CAN！_can通信协议简单理解_Wireless_Link的博客-CSDN博客  CAN通信速成！从会到不会~_哔哩哔哩_bilibili  CAN通信知识梳理及在Stm32上的应用（HAL库）_冬瓜~的博客-CSDN博客  基本知识1.CAN通信物理层 具体实现 CAN控制器：STM32F407等MCU上自带的CAN控制器">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CAN通讯">
+<meta property="og:title" content="CAN通信讲义">
 <meta property="og:url" content="https://pocro.github.io/2023/09/11/CAN%E9%80%9A%E8%AE%AF/index.html">
 <meta property="og:site_name" content="POCRO的个人站">
-<meta property="og:description" content="基本知识  通信分类 1. 串行 USART IIC SPI USB CAN 2. 并行 6800 8080 通信方式 差分信号 隐形电平对应逻辑 1，两线压差为0，显性电平对应逻辑0，两线压差为2.5V   可以使外界干扰减到很小 终端电阻：120欧 用于减少回波反射 关于CAN的帧  后三种帧是由硬件来完成的，重点关注前两者 &#x3D;&#x3D;数据帧&#x3D;&#x3D;：《CAN入">
+<meta property="og:description" content="不错的参考博客秀！靠这篇我竟然2天理解了CAN协议！实战STM32F4 CAN！_can通信协议简单理解_Wireless_Link的博客-CSDN博客  CAN通信速成！从会到不会~_哔哩哔哩_bilibili  CAN通信知识梳理及在Stm32上的应用（HAL库）_冬瓜~的博客-CSDN博客  基本知识1.CAN通信物理层 具体实现 CAN控制器：STM32F407等MCU上自带的CAN控制器">
 <meta property="og:locale">
-<meta property="og:image" content="https://pocro.github.io/note_pic/image-20230821200627057.png">
-<meta property="og:image" content="https://pocro.github.io/note_pic/image-20230821201332350.png">
-<meta property="og:image" content="https://pocro.github.io/note_pic/image-20230821202142176-16944409121551.png">
-<meta property="og:image" content="https://pocro.github.io/note_pic/image-20230825210937747-16955663895571.png">
-<meta property="og:image" content="https://pocro.github.io/note_pic/image-20230825210953730-16944409251272.png">
-<meta property="og:image" content="https://pocro.github.io/note_pic/image-20230825211732467-16944409301473.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202501261142732.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202501261145381.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202501261147606.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202501261148542.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202501261148654.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202501261150235.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202501261153887.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202501261157469.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202501261157188.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202501261158282.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202501261159516.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202501261159516.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202501261203554.png">
 <meta property="article:published_time" content="2023-09-11T13:58:37.000Z">
-<meta property="article:modified_time" content="2023-09-24T14:40:15.072Z">
+<meta property="article:modified_time" content="2025-01-26T04:03:57.243Z">
 <meta property="article:author" content="Flying Pocro">
 <meta property="article:tag" content="嵌入式 STM32 CAN">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://pocro.github.io/note_pic/image-20230821200627057.png">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202501261142732.png">
     
     
     <!--- Icon Part-->
@@ -48,7 +55,7 @@
     
     <title>
         
-            CAN通讯 -
+            CAN通信讲义 -
         
         POCRO的个人站
     </title>
@@ -154,7 +161,7 @@
                                         
                                             <i class="fa-regular fa-house"></i>
                                         
-                                        HOME
+                                        首页
                                     
                                 </a>
                                 <!-- Submenu -->
@@ -170,7 +177,7 @@
                                         
                                             <i class="fa-regular fa-archive"></i>
                                         
-                                        ARCHIVES
+                                        归档
                                     
                                 </a>
                                 <!-- Submenu -->
@@ -186,7 +193,7 @@
                                         
                                             <i class="fa-regular fa-user"></i>
                                         
-                                        ABOUT
+                                        关于
                                     
                                 </a>
                                 <!-- Submenu -->
@@ -224,7 +231,7 @@
                                 
                                     <i class="fa-regular fa-house"></i>
                                 
-                                HOME
+                                首页
                             
                         </a>
                     </li>
@@ -239,7 +246,7 @@
                                 
                                     <i class="fa-regular fa-archive"></i>
                                 
-                                ARCHIVES
+                                归档
                             
                         </a>
                     </li>
@@ -254,7 +261,7 @@
                                 
                                     <i class="fa-regular fa-user"></i>
                                 
-                                ABOUT
+                                关于
                             
                         </a>
                     </li>
@@ -284,7 +291,7 @@
 
         <div class="article-title">
             
-                <h1 class="article-title-regular">CAN通讯</h1>
+                <h1 class="article-title-regular">CAN通信讲义</h1>
             
             </div>
             
@@ -308,14 +315,14 @@
         <i class="fa-regular fa-pen-fancy"></i>&nbsp;
         <span class="desktop">2023-09-11 21:58:37</span>
         <span class="mobile">2023-09-11 21:58:37</span>
-        <span class="hover-info">Created</span>
+        <span class="hover-info">创建</span>
     </span>
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2023-09-24 22:40:15</span>
-            <span class="mobile">2023-09-24 22:40:15</span>
-            <span class="hover-info">Updated</span>
+            <span class="desktop">2025-01-26 12:03:57</span>
+            <span class="mobile">2025-01-26 12:03:57</span>
+            <span class="hover-info">更新</span>
         </span>
     
 
@@ -352,93 +359,134 @@
 
 
         <div class="article-content markdown-body">
-            <ol>
-<li><h2 id="基本知识"><a href="#基本知识" class="headerlink" title="基本知识"></a>基本知识</h2></li>
-</ol>
-<p>通信分类 1. 串行 USART IIC SPI USB CAN 2. 并行 6800 8080 通信方式</p>
-<p>差分信号 隐形电平对应逻辑 1，两线压差为0，显性电平对应逻辑0，两线压差为2.5V   可以使外界干扰减到很小</p>
-<p>终端电阻：120欧 用于减少回波反射</p>
-<p>关于CAN的帧</p>
+            <h2 id="不错的参考博客"><a href="#不错的参考博客" class="headerlink" title="不错的参考博客"></a>不错的参考博客</h2><p><a class="link"   target="_blank" rel="noopener" href="https://blog.csdn.net/XiaoXiaoPengBo/article/details/116206252?ops_request_misc=%7B%22request_id%22:%22163559744416780271593574%22,%22scm%22:%2220140713.130102334..%22%7D&request_id=163559744416780271593574&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-116206252.pc_search_result_control_group&utm_term=can&spm=1018.2226.3001.4187" >秀！靠这篇我竟然2天理解了CAN协议！实战STM32F4 CAN！_can通信协议简单理解_Wireless_Link的博客-CSDN博客 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Dq4y1J7WA/?from=search&seid=54886702141269529&spm_id_from=333.337.0.0" >CAN通信速成！从会到不会~_哔哩哔哩_bilibili <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44793491/article/details/107298426" >CAN通信知识梳理及在Stm32上的应用（HAL库）_冬瓜~的博客-CSDN博客 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<h2 id="基本知识"><a href="#基本知识" class="headerlink" title="基本知识"></a>基本知识</h2><h3 id="1-CAN通信物理层"><a href="#1-CAN通信物理层" class="headerlink" title="1.CAN通信物理层"></a>1.CAN通信物理层</h3><p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202501261142732.png"
+                      alt="image-20250126114246686"
+                ></p>
+<p>具体实现</p>
+<p>CAN控制器：STM32F407等MCU上自带的CAN控制器</p>
+<p>CAN收发器：SN65HVD230芯片,CA-IS3052G隔离式 <a class="link"   target="_blank" rel="noopener" href="https://item.szlcsc.com/548132.html" >CA-IS3052G <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
 <p><img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="/note_pic/image-20230821200627057.png"
-                      alt="image-20230821200627057"
+                     data-src="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202501261145381.png"
+                      alt="image-20250126114534348"
+                ></p>
+<h3 id="2-CAN通信帧"><a href="#2-CAN通信帧" class="headerlink" title="2.CAN通信帧"></a>2.CAN通信帧</h3><p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202501261147606.png"
+                      alt="image-20250126114754564"
                 ></p>
 <p>后三种帧是由硬件来完成的，重点关注前两者</p>
-<p>&#x3D;&#x3D;数据帧&#x3D;&#x3D;：《CAN入门书》  P24 </p>
 <p><img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="/note_pic/image-20230821201332350.png"
-                      alt="image-20230821201332350"
+                     data-src="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202501261148542.png"
+                      alt="image-20250126114842507"
                 ></p>
-<p>RTR段：判断是否是远程帧</p>
-<p>IDE：标识符选择位</p>
-<p>SRR：代替远程请求位</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202501261148654.png"
+                      alt="image-20250126114852613"
+                ></p>
+<p>ID段：数据的ID号，分为11位的标准格式ID和29位的扩展格式ID</p>
 <p>DLC：给定数据长度</p>
 <p>CRC：校验段</p>
-<p>&#x3D;&#x3D;优先级的决定&#x3D;&#x3D;   《CAN入门书》 P33</p>
-<p>当总线空闲时最先发的获得发送权</p>
-<p>当多个单元同时开始发送时，从仲裁位的第一位开始仲裁，连续输出显性电平最多的单元可继续发送</p>
-<blockquote>
-<p>所以 ID 最小（也就是0最多）的优先级最高</p>
-</blockquote>
-<ol start="2">
-<li><h2 id="STM32中的CAN"><a href="#STM32中的CAN" class="headerlink" title="STM32中的CAN"></a>STM32中的CAN</h2></li>
-</ol>
-<p>如下图可见，CAN2不能控制筛选器，如果有CAN2的话，在使用CAN2之前一定要先使能 CAN1的时钟    <u>中文参考手册 P609</u></p>
+<h3 id="3-CAN通信的重要基本特征"><a href="#3-CAN通信的重要基本特征" class="headerlink" title="3.CAN通信的重要基本特征"></a>3.CAN通信的重要基本特征</h3><ol>
+<li><p>差分信号 </p>
+<p>隐形电平对应逻辑 1，两线压差为0，显性电平对应逻辑0，两线压差为2.5V   可以使外界干扰减到很小（抑制共模干扰）</p>
+<aside> 💡
+
+<p>双绞线:减小电磁场相互作用</p>
+<p>PCB Layout:确保信号传输不出现延时差异，防止出现信号失真或时序问题</p>
+</aside>
+
 <p><img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="/note_pic/image-20230821202142176-16944409121551.png"
-                      alt="image-20230821202142176"
+                     data-src="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202501261150235.png"
+                      alt="image-20250126115013194"
                 ></p>
-<blockquote>
-<p>筛选器就是用来筛选有着固定ID的信息，减小总线负担</p>
-</blockquote>
-<p>CAN的配置</p>
-<h3 id="位时序（控制波特率）"><a href="#位时序（控制波特率）" class="headerlink" title="位时序（控制波特率）"></a>位时序（控制波特率）</h3><ol>
-<li><h4 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h4></li>
+</li>
+<li><p>终端电阻</p>
+<p>120欧 用于减少回波反射</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202501261153887.png"
+                      alt="image-20250126115306798"
+                ></p>
+<p>多电机模式下设置好电机上的拨档使得终端电阻为120，主控端120欧电阻长期使用后可能掉落，所以最好电表测量实际终端电阻修改对应。</p>
+</li>
+<li><p>系统的柔软性</p>
+<p>与总线相连的单元没有类似于“地址”的信息。因此在总线上增加单元时，连接在总线上的其它单元的软硬件及应用层都不需要改变。</p>
+</li>
 </ol>
-<p><u>《CAN入门书》P40</u></p>
+<h3 id="4-CAN在STM32"><a href="#4-CAN在STM32" class="headerlink" title="4.CAN在STM32"></a>4.CAN在STM32</h3><ol>
+<li><p>关于采样点和位时序</p>
+<p>见STM32F4中文参考手册 P622</p>
 <p>一个位相当于是一帧数据，控制位时序相当于就是控制一帧数据的时间长度，再将这个时间长度取倒数就得到了波特率。</p>
 <p>这些位都是由最小的时间单元组成，称为一个 time quantum，也就是 1tq</p>
 <p><img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="/note_pic/image-20230825210937747-16955663895571.png"
-                      alt="image-20230825210937747"
+                     data-src="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202501261157469.png"
+                      alt="image-20250126115740427"
+                ></p>
+</li>
+</ol>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202501261157188.png"
+                      alt="image-20250126115757140"
                 ></p>
 <p><img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="/note_pic/image-20230825210953730-16944409251272.png"
-                      alt="image-20230825210953730"
+                     data-src="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202501261158282.png"
+                      alt="image-20250126115810229"
+                ></p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202501261159516.png"
+                      alt="image-20250126115936455"
                 ></p>
 <p>那么在实际程序中，就需要控制好这些位时序使得波特率正确</p>
-<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CAN_InitStructure.CAN_SJW=CAN_SJW_1tq;	<span class="comment">//重新同步跳跃宽度(Tsjw)为tsjw+1个时间单位 CAN_SJW_1tq~CAN_SJW_4tq</span></span><br><span class="line">CAN_InitStructure.CAN_BS1=CAN_BS1_9tq; <span class="comment">//Tbs1范围CAN_BS1_1tq ~CAN_BS1_16tq</span></span><br><span class="line">CAN_InitStructure.CAN_BS2=CAN_BS2_4tq;<span class="comment">//Tbs2范围CAN_BS2_1tq ~	CAN_BS2_8tq</span></span><br><span class="line">CAN_InitStructure.CAN_Prescaler = <span class="number">3</span>;  <span class="comment">//分频系数(Fdiv)为brp+1	</span></span><br></pre></td></tr></table></figure></div>
+<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CAN_InitStructure.CAN_SJW=CAN_SJW_1tq;  <span class="comment">//重新同步跳跃宽度(Tsjw)为tsjw+1个时间单位 CAN_SJW_1tq~CAN_SJW_4tq</span></span><br><span class="line">CAN_InitStructure.CAN_BS1=CAN_BS1_10tq;  <span class="comment">//Tbs1范围CAN_BS1_1tq ~CAN_BS1_16tq</span></span><br><span class="line">CAN_InitStructure.CAN_BS2=CAN_BS2_3tq;  <span class="comment">//Tbs2范围CAN_BS2_1tq ~   CAN_BS2_8tq</span></span><br><span class="line">CAN_InitStructure.CAN_Prescaler = <span class="number">3</span>;    <span class="comment">//分频系数(Fdiv)为brp+1</span></span><br></pre></td></tr></table></figure></div>
 
-<p>因为该板子上的CAN是挂载在 APB1 时钟上，分频就是 42Mhz，再分完频就是 14Mhz，所以一个 tp 就是 $\frac{1}{14Mhz}$，而在上述代码中设置了总共 14 个 tp，所以一个位的时间长度是 $\frac{1}{1Mhz}$ ，所以波特率就是 1Mhz</p>
-<ol start="2">
-<li><h4 id="关于采样点："><a href="#关于采样点：" class="headerlink" title="关于采样点："></a>关于采样点：</h4></li>
-</ol>
-<p>见<u>STM32F4中文参考手册 P622</u></p>
+<p>因为该板子上的 CAN 是挂载在 APB1 时钟上，分频就是 42Mhz，再分完频就是 14Mhz，所以一个 tp 就是 $\frac{1}{14Mhz}$，而在上述代码中设置了总共 14 个 tp，所以一个位的时间长度是 $\frac{1}{1Mhz}$ ，所以波特率就是 1Mhz</p>
 <p><img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="/note_pic/image-20230825211732467-16944409301473.png"
-                      alt="image-20230825211732467"
+                     data-src="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202501261159516.png"
+                      alt="image-20250126115936455"
                 ></p>
 <p>由上图可以看到，SYNC_SEG 和 BS1 结束后为采样点，一般来说把采样点控制在 80% 左右比较合适</p>
-<h3 id="滤波器"><a href="#滤波器" class="headerlink" title="滤波器"></a>滤波器</h3><p>筛选器有标识符模式和掩码模式</p>
-<p>不管用不用滤波器都要配置好！</p>
-<ol start="3">
-<li><h2 id="用到的不错的视频和博客"><a href="#用到的不错的视频和博客" class="headerlink" title="用到的不错的视频和博客"></a>用到的不错的视频和博客</h2></li>
+<ol start="2">
+<li><p>滤波器</p>
+<p><strong>不管是否直接使用滤波器都要配好！</strong></p>
+<p>如下图可见，CAN2不能控制筛选器，如果有CAN2的话，在使用CAN2之前一定要先使能 CAN1的时钟    中文参考手册 P609</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202501261203554.png"
+                      alt="image-20250126120322497"
+                ></p>
+<p>其中筛选器就是用来筛选有着固定ID的信息，减小总线负担</p>
+<aside> 💡
+
+<p>CAN1是主CAN,其他的CAN如果没有先使能CAN1就会无法正常运行</p>
+</aside></li>
 </ol>
-<p><a class="link"   target="_blank" rel="noopener" href="https://blog.csdn.net/XiaoXiaoPengBo/article/details/116206252?ops_request_misc=%7B%22request_id%22:%22163559744416780271593574%22,%22scm%22:%2220140713.130102334..%22%7D&request_id=163559744416780271593574&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-116206252.pc_search_result_control_group&utm_term=can&spm=1018.2226.3001.4187" >秀！靠这篇我竟然2天理解了CAN协议！实战STM32F4 CAN！_can通信协议简单理解_Wireless_Link的博客-CSDN博客 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<p><a class="link"   target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Dq4y1J7WA/?from=search&seid=54886702141269529&spm_id_from=333.337.0.0" >CAN通信速成！从会到不会~_哔哩哔哩_bilibili <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<p><a class="link"   target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44793491/article/details/107298426" >CAN通信知识梳理及在Stm32上的应用（HAL库）_冬瓜~的博客-CSDN博客 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
 
         </div>
 
@@ -446,25 +494,25 @@
             <div class="post-copyright-info">
                 <div class="article-copyright-info-container">
     <ul>
-        <li><strong>Title:</strong> CAN通讯</li>
-        <li><strong>Author:</strong> POCRO</li>
-        <li><strong>Created at
+        <li><strong>标题:</strong> CAN通信讲义</li>
+        <li><strong>作者:</strong> POCRO</li>
+        <li><strong>创建于
                 :</strong> 2023-09-11 21:58:37</li>
         
             <li>
-                <strong>Updated at
-                    :</strong> 2023-09-24 22:40:15
+                <strong>更新于
+                    :</strong> 2025-01-26 12:03:57
             </li>
         
         <li>
-            <strong>Link:</strong> https://pocro.github.io/2023/09/11/CAN通讯/
+            <strong>链接:</strong> https://pocro.github.io/2023/09/11/CAN通讯/
         </li>
         <li>
             <strong>
-                License:
+                版权声明:
             </strong>
             
-            This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>.
+            本文章采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a> 进行许可。
             
 
         </li>
@@ -497,7 +545,7 @@
                         >
                             <span class="title flex justify-center items-center">
                                 <span class="post-nav-title-item">demo</span>
-                                <span class="post-nav-item">Next posts</span>
+                                <span class="post-nav-item">下一篇</span>
                             </span>
                             <span class="right arrow-icon flex justify-center items-center">
                                 <i class="fa-solid fa-chevron-right"></i>
@@ -514,7 +562,7 @@
                 <div class="comments-container pjax">
     <div id="comment-anchor"></div>
     <div class="comment-area-title">
-        <i class="fa-solid fa-comments"></i>&nbsp;Comments
+        <i class="fa-solid fa-comments"></i>&nbsp;评论
     </div>
     
 
@@ -560,9 +608,9 @@
         <div class="toc-content-container">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <div class="toc-title">On this page</div>
-        <div class="page-title">CAN通讯</div>
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86"><span class="nav-text">基本知识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#STM32%E4%B8%AD%E7%9A%84CAN"><span class="nav-text">STM32中的CAN</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%8D%E6%97%B6%E5%BA%8F%EF%BC%88%E6%8E%A7%E5%88%B6%E6%B3%A2%E7%89%B9%E7%8E%87%EF%BC%89"><span class="nav-text">位时序（控制波特率）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BB%A4%E6%B3%A2%E5%99%A8"><span class="nav-text">滤波器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8%E5%88%B0%E7%9A%84%E4%B8%8D%E9%94%99%E7%9A%84%E8%A7%86%E9%A2%91%E5%92%8C%E5%8D%9A%E5%AE%A2"><span class="nav-text">用到的不错的视频和博客</span></a></li></ol>
+        <div class="toc-title">此页目录</div>
+        <div class="page-title">CAN通信讲义</div>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8D%E9%94%99%E7%9A%84%E5%8F%82%E8%80%83%E5%8D%9A%E5%AE%A2"><span class="nav-text">不错的参考博客</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86"><span class="nav-text">基本知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-CAN%E9%80%9A%E4%BF%A1%E7%89%A9%E7%90%86%E5%B1%82"><span class="nav-text">1.CAN通信物理层</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-CAN%E9%80%9A%E4%BF%A1%E5%B8%A7"><span class="nav-text">2.CAN通信帧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-CAN%E9%80%9A%E4%BF%A1%E7%9A%84%E9%87%8D%E8%A6%81%E5%9F%BA%E6%9C%AC%E7%89%B9%E5%BE%81"><span class="nav-text">3.CAN通信的重要基本特征</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-CAN%E5%9C%A8STM32"><span class="nav-text">4.CAN在STM32</span></a></li></ol></li></ol>
 
     </div>
 </div>
@@ -597,26 +645,26 @@
             <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
                 
                     <span id="busuanzi_container_site_uv" class="lg:!block">
-                        <span class="text-sm">VISITOR COUNT</span>
+                        <span class="text-sm">访问人数</span>
                         <span id="busuanzi_value_site_uv"></span>
                     </span>
                 
                 
                     <span id="busuanzi_container_site_pv" class="lg:!block">
-                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span class="text-sm">总访问量</span>
                         <span id="busuanzi_value_site_pv"></span>
                     </span>
                 
             </div>
         
         <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
-            <span class="lg:block text-sm">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
-            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.4.4</a></span>
+            <span class="lg:block text-sm">由 <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.4.4</a></span>
         </div>
         
         
             <div>
-                Blog up for <span class="odometer" id="runtime_days" ></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+                博客已运行 <span class="odometer" id="runtime_days" ></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
             </div>
         
         
@@ -727,7 +775,7 @@
                 <input autocomplete="off"
                        autocorrect="off"
                        autocapitalize="off"
-                       placeholder="Search..."
+                       placeholder="搜索..."
                        spellcheck="false"
                        type="search"
                        class="search-input"

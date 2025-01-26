@@ -161,95 +161,136 @@
       </tags>
   </entry>
   <entry>
-    <title>CAN通讯</title>
+    <title>CAN通信讲义</title>
     <url>/2023/09/11/CAN%E9%80%9A%E8%AE%AF/</url>
-    <content><![CDATA[<ol>
-<li><h2 id="基本知识"><a href="#基本知识" class="headerlink" title="基本知识"></a>基本知识</h2></li>
-</ol>
-<p>通信分类 1. 串行 USART IIC SPI USB CAN 2. 并行 6800 8080 通信方式</p>
-<p>差分信号 隐形电平对应逻辑 1，两线压差为0，显性电平对应逻辑0，两线压差为2.5V   可以使外界干扰减到很小</p>
-<p>终端电阻：120欧 用于减少回波反射</p>
-<p>关于CAN的帧</p>
+    <content><![CDATA[<h2 id="不错的参考博客"><a href="#不错的参考博客" class="headerlink" title="不错的参考博客"></a>不错的参考博客</h2><p><a class="link"   href="https://blog.csdn.net/XiaoXiaoPengBo/article/details/116206252?ops_request_misc=%7B%22request_id%22:%22163559744416780271593574%22,%22scm%22:%2220140713.130102334..%22%7D&request_id=163559744416780271593574&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-116206252.pc_search_result_control_group&utm_term=can&spm=1018.2226.3001.4187" >秀！靠这篇我竟然2天理解了CAN协议！实战STM32F4 CAN！_can通信协议简单理解_Wireless_Link的博客-CSDN博客 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p><a class="link"   href="https://www.bilibili.com/video/BV1Dq4y1J7WA/?from=search&seid=54886702141269529&spm_id_from=333.337.0.0" >CAN通信速成！从会到不会~_哔哩哔哩_bilibili <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p><a class="link"   href="https://blog.csdn.net/weixin_44793491/article/details/107298426" >CAN通信知识梳理及在Stm32上的应用（HAL库）_冬瓜~的博客-CSDN博客 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<h2 id="基本知识"><a href="#基本知识" class="headerlink" title="基本知识"></a>基本知识</h2><h3 id="1-CAN通信物理层"><a href="#1-CAN通信物理层" class="headerlink" title="1.CAN通信物理层"></a>1.CAN通信物理层</h3><p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202501261142732.png"
+                      alt="image-20250126114246686"
+                ></p>
+<p>具体实现</p>
+<p>CAN控制器：STM32F407等MCU上自带的CAN控制器</p>
+<p>CAN收发器：SN65HVD230芯片,CA-IS3052G隔离式 <a class="link"   href="https://item.szlcsc.com/548132.html" >CA-IS3052G <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
 <p><img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="/note_pic/image-20230821200627057.png"
-                      alt="image-20230821200627057"
+                     data-src="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202501261145381.png"
+                      alt="image-20250126114534348"
+                ></p>
+<h3 id="2-CAN通信帧"><a href="#2-CAN通信帧" class="headerlink" title="2.CAN通信帧"></a>2.CAN通信帧</h3><p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202501261147606.png"
+                      alt="image-20250126114754564"
                 ></p>
 <p>后三种帧是由硬件来完成的，重点关注前两者</p>
-<p>&#x3D;&#x3D;数据帧&#x3D;&#x3D;：《CAN入门书》  P24 </p>
 <p><img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="/note_pic/image-20230821201332350.png"
-                      alt="image-20230821201332350"
+                     data-src="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202501261148542.png"
+                      alt="image-20250126114842507"
                 ></p>
-<p>RTR段：判断是否是远程帧</p>
-<p>IDE：标识符选择位</p>
-<p>SRR：代替远程请求位</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202501261148654.png"
+                      alt="image-20250126114852613"
+                ></p>
+<p>ID段：数据的ID号，分为11位的标准格式ID和29位的扩展格式ID</p>
 <p>DLC：给定数据长度</p>
 <p>CRC：校验段</p>
-<p>&#x3D;&#x3D;优先级的决定&#x3D;&#x3D;   《CAN入门书》 P33</p>
-<p>当总线空闲时最先发的获得发送权</p>
-<p>当多个单元同时开始发送时，从仲裁位的第一位开始仲裁，连续输出显性电平最多的单元可继续发送</p>
-<blockquote>
-<p>所以 ID 最小（也就是0最多）的优先级最高</p>
-</blockquote>
-<ol start="2">
-<li><h2 id="STM32中的CAN"><a href="#STM32中的CAN" class="headerlink" title="STM32中的CAN"></a>STM32中的CAN</h2></li>
-</ol>
-<p>如下图可见，CAN2不能控制筛选器，如果有CAN2的话，在使用CAN2之前一定要先使能 CAN1的时钟    <u>中文参考手册 P609</u></p>
+<h3 id="3-CAN通信的重要基本特征"><a href="#3-CAN通信的重要基本特征" class="headerlink" title="3.CAN通信的重要基本特征"></a>3.CAN通信的重要基本特征</h3><ol>
+<li><p>差分信号 </p>
+<p>隐形电平对应逻辑 1，两线压差为0，显性电平对应逻辑0，两线压差为2.5V   可以使外界干扰减到很小（抑制共模干扰）</p>
+<aside> 💡
+
+<p>双绞线:减小电磁场相互作用</p>
+<p>PCB Layout:确保信号传输不出现延时差异，防止出现信号失真或时序问题</p>
+</aside>
+
 <p><img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="/note_pic/image-20230821202142176-16944409121551.png"
-                      alt="image-20230821202142176"
+                     data-src="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202501261150235.png"
+                      alt="image-20250126115013194"
                 ></p>
-<blockquote>
-<p>筛选器就是用来筛选有着固定ID的信息，减小总线负担</p>
-</blockquote>
-<p>CAN的配置</p>
-<h3 id="位时序（控制波特率）"><a href="#位时序（控制波特率）" class="headerlink" title="位时序（控制波特率）"></a>位时序（控制波特率）</h3><ol>
-<li><h4 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h4></li>
+</li>
+<li><p>终端电阻</p>
+<p>120欧 用于减少回波反射</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202501261153887.png"
+                      alt="image-20250126115306798"
+                ></p>
+<p>多电机模式下设置好电机上的拨档使得终端电阻为120，主控端120欧电阻长期使用后可能掉落，所以最好电表测量实际终端电阻修改对应。</p>
+</li>
+<li><p>系统的柔软性</p>
+<p>与总线相连的单元没有类似于“地址”的信息。因此在总线上增加单元时，连接在总线上的其它单元的软硬件及应用层都不需要改变。</p>
+</li>
 </ol>
-<p><u>《CAN入门书》P40</u></p>
+<h3 id="4-CAN在STM32"><a href="#4-CAN在STM32" class="headerlink" title="4.CAN在STM32"></a>4.CAN在STM32</h3><ol>
+<li><p>关于采样点和位时序</p>
+<p>见STM32F4中文参考手册 P622</p>
 <p>一个位相当于是一帧数据，控制位时序相当于就是控制一帧数据的时间长度，再将这个时间长度取倒数就得到了波特率。</p>
 <p>这些位都是由最小的时间单元组成，称为一个 time quantum，也就是 1tq</p>
 <p><img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="/note_pic/image-20230825210937747-16955663895571.png"
-                      alt="image-20230825210937747"
+                     data-src="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202501261157469.png"
+                      alt="image-20250126115740427"
+                ></p>
+</li>
+</ol>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202501261157188.png"
+                      alt="image-20250126115757140"
                 ></p>
 <p><img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="/note_pic/image-20230825210953730-16944409251272.png"
-                      alt="image-20230825210953730"
+                     data-src="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202501261158282.png"
+                      alt="image-20250126115810229"
+                ></p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202501261159516.png"
+                      alt="image-20250126115936455"
                 ></p>
 <p>那么在实际程序中，就需要控制好这些位时序使得波特率正确</p>
-<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line">CAN_InitStructure.CAN_SJW=CAN_SJW_1tq;	<span class="comment">//重新同步跳跃宽度(Tsjw)为tsjw+1个时间单位 CAN_SJW_1tq~CAN_SJW_4tq</span></span><br><span class="line">CAN_InitStructure.CAN_BS1=CAN_BS1_9tq; <span class="comment">//Tbs1范围CAN_BS1_1tq ~CAN_BS1_16tq</span></span><br><span class="line">CAN_InitStructure.CAN_BS2=CAN_BS2_4tq;<span class="comment">//Tbs2范围CAN_BS2_1tq ~	CAN_BS2_8tq</span></span><br><span class="line">CAN_InitStructure.CAN_Prescaler = <span class="number">3</span>;  <span class="comment">//分频系数(Fdiv)为brp+1	</span></span><br></pre></td></tr></table></figure></div>
+<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line">CAN_InitStructure.CAN_SJW=CAN_SJW_1tq;  <span class="comment">//重新同步跳跃宽度(Tsjw)为tsjw+1个时间单位 CAN_SJW_1tq~CAN_SJW_4tq</span></span><br><span class="line">CAN_InitStructure.CAN_BS1=CAN_BS1_10tq;  <span class="comment">//Tbs1范围CAN_BS1_1tq ~CAN_BS1_16tq</span></span><br><span class="line">CAN_InitStructure.CAN_BS2=CAN_BS2_3tq;  <span class="comment">//Tbs2范围CAN_BS2_1tq ~   CAN_BS2_8tq</span></span><br><span class="line">CAN_InitStructure.CAN_Prescaler = <span class="number">3</span>;    <span class="comment">//分频系数(Fdiv)为brp+1</span></span><br></pre></td></tr></table></figure></div>
 
-<p>因为该板子上的CAN是挂载在 APB1 时钟上，分频就是 42Mhz，再分完频就是 14Mhz，所以一个 tp 就是 $\frac{1}{14Mhz}$，而在上述代码中设置了总共 14 个 tp，所以一个位的时间长度是 $\frac{1}{1Mhz}$ ，所以波特率就是 1Mhz</p>
-<ol start="2">
-<li><h4 id="关于采样点："><a href="#关于采样点：" class="headerlink" title="关于采样点："></a>关于采样点：</h4></li>
-</ol>
-<p>见<u>STM32F4中文参考手册 P622</u></p>
+<p>因为该板子上的 CAN 是挂载在 APB1 时钟上，分频就是 42Mhz，再分完频就是 14Mhz，所以一个 tp 就是 $\frac{1}{14Mhz}$，而在上述代码中设置了总共 14 个 tp，所以一个位的时间长度是 $\frac{1}{1Mhz}$ ，所以波特率就是 1Mhz</p>
 <p><img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="/note_pic/image-20230825211732467-16944409301473.png"
-                      alt="image-20230825211732467"
+                     data-src="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202501261159516.png"
+                      alt="image-20250126115936455"
                 ></p>
 <p>由上图可以看到，SYNC_SEG 和 BS1 结束后为采样点，一般来说把采样点控制在 80% 左右比较合适</p>
-<h3 id="滤波器"><a href="#滤波器" class="headerlink" title="滤波器"></a>滤波器</h3><p>筛选器有标识符模式和掩码模式</p>
-<p>不管用不用滤波器都要配置好！</p>
-<ol start="3">
-<li><h2 id="用到的不错的视频和博客"><a href="#用到的不错的视频和博客" class="headerlink" title="用到的不错的视频和博客"></a>用到的不错的视频和博客</h2></li>
+<ol start="2">
+<li><p>滤波器</p>
+<p><strong>不管是否直接使用滤波器都要配好！</strong></p>
+<p>如下图可见，CAN2不能控制筛选器，如果有CAN2的话，在使用CAN2之前一定要先使能 CAN1的时钟    中文参考手册 P609</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202501261203554.png"
+                      alt="image-20250126120322497"
+                ></p>
+<p>其中筛选器就是用来筛选有着固定ID的信息，减小总线负担</p>
+<aside> 💡
+
+<p>CAN1是主CAN,其他的CAN如果没有先使能CAN1就会无法正常运行</p>
+</aside></li>
 </ol>
-<p><a class="link"   href="https://blog.csdn.net/XiaoXiaoPengBo/article/details/116206252?ops_request_misc=%7B%22request_id%22:%22163559744416780271593574%22,%22scm%22:%2220140713.130102334..%22%7D&request_id=163559744416780271593574&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-116206252.pc_search_result_control_group&utm_term=can&spm=1018.2226.3001.4187" >秀！靠这篇我竟然2天理解了CAN协议！实战STM32F4 CAN！_can通信协议简单理解_Wireless_Link的博客-CSDN博客 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<p><a class="link"   href="https://www.bilibili.com/video/BV1Dq4y1J7WA/?from=search&seid=54886702141269529&spm_id_from=333.337.0.0" >CAN通信速成！从会到不会~_哔哩哔哩_bilibili <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<p><a class="link"   href="https://blog.csdn.net/weixin_44793491/article/details/107298426" >CAN通信知识梳理及在Stm32上的应用（HAL库）_冬瓜~的博客-CSDN博客 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
 ]]></content>
       <tags>
         <tag>嵌入式 STM32 CAN</tag>
