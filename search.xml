@@ -554,4 +554,187 @@
 <p>通过这些步骤，可以确保 ROS 2 节点在初始化后正常工作，并在结束时正确释放资源。</p>
 ]]></content>
   </entry>
+  <entry>
+    <title>Q-learning</title>
+    <url>/2025/02/07/Q-learning/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>头文件包含规范</title>
+    <url>/2025/02/07/%E5%A4%B4%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E8%A7%84%E8%8C%83/</url>
+    <content><![CDATA[<p><a class="link"   href="https://stibel.icu/md/method/code-style/code-style-head-file.html" >编码规范 - 头文件包含规范 | C++ 全栈知识体系 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<ul>
+<li>通过前置声明的方式，减少头文件中依赖的其他头文件。将头文件的包含动作延迟到源文件中去实现。</li>
+</ul>
+<h2 id="Self-contained-头文件自包含"><a href="#Self-contained-头文件自包含" class="headerlink" title="Self-contained 头文件自包含"></a>Self-contained 头文件自包含</h2><ul>
+<li>所有头文件要能够自给自足，即头文件需要包含<strong>本身依赖</strong>的其他头文件。</li>
+<li>换言之，用户和重构工具不需要为特别场合而包含额外的头文件。</li>
+</ul>
+<h2 id="头文件中尽量减少对其他头文件的依赖"><a href="#头文件中尽量减少对其他头文件的依赖" class="headerlink" title="头文件中尽量减少对其他头文件的依赖"></a>头文件中尽量减少对其他头文件的依赖</h2><ul>
+<li>头文件包含另一个头文件的同时会引入一项新的依赖(dependency)，这个依赖也会随着该头文件的被包含而扩散出去，从而导致<strong>依赖扩散</strong>。</li>
+<li>只要头文件被修改，代码就要重新编译，如果你的头文件包含了其它头文件，<strong>这些头文件的任何改动都将导致那些包含了你的头文件的代码重新编译</strong>。</li>
+</ul>
+<h3 id="多余的头文件包含"><a href="#多余的头文件包含" class="headerlink" title="多余的头文件包含"></a>多余的头文件包含</h3><ul>
+<li>头文件包含必须遵循最少必要原则，尽量少包含。</li>
+<li>能包含小的头文件，不包含大的头文件。</li>
+<li>及时清理不需要的头文件包含，不能只增不删。</li>
+</ul>
+<h3 id="可以在source文件包含的，不要包含着头文件中"><a href="#可以在source文件包含的，不要包含着头文件中" class="headerlink" title="可以在source文件包含的，不要包含着头文件中"></a>可以在source文件包含的，不要包含着头文件中</h3><p>例如，Test.h头文件以及对应Test.cpp文件。</p>
+<p>Test.h只要包含改头文件所依赖的其他头文件，不能将Test.cpp所需要用到的头文件全都放在Test.h中。</p>
+<h3 id="头文件仅声明，不作实现"><a href="#头文件仅声明，不作实现" class="headerlink" title="头文件仅声明，不作实现"></a>头文件仅声明，不作实现</h3><p>如果头文件里包含函数实现，在其他多个源文件中使用include方式包含时，会提示多重定义(multiple definition)</p>
+<h3 id="头文件是只包含必要的声明"><a href="#头文件是只包含必要的声明" class="headerlink" title="头文件是只包含必要的声明"></a>头文件是只包含必要的声明</h3><ul>
+<li>不是所有函数实现都需要在头文件中声明，只声明需要发布的函数接口。</li>
+<li>私有函数不在头文件中声明，从而减少头文件的依赖。例如，某些工具类方法可以声明和实现在.cpp函数的类外。</li>
+</ul>
+<h3 id="define-保护"><a href="#define-保护" class="headerlink" title="define 保护"></a>define 保护</h3><ul>
+<li>所有头文件都应该使用 #define 来防止头文件被多重包含, 命名格式例如:</li>
+</ul>
+<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifndef</span> Data_MySQL_MySQLException_INCLUDED#<span class="keyword">define</span> Data_MySQL_MySQLException_INCLUDED</span></span><br><span class="line">        Copied!</span><br></pre></td></tr></table></figure></div>
+
+<p>12</p>
+<h3 id="使用前置声明-forward-declarations"><a href="#使用前置声明-forward-declarations" class="headerlink" title="使用前置声明(forward declarations)"></a>使用前置声明(forward declarations)</h3><ul>
+<li>「前置声明」（forward declaration）是类、函数和模板的纯粹声明，没伴随着其定义.</li>
+</ul>
+<p>看法一：</p>
+<ul>
+<li>尽可能地避免使用前置声明。使用 #include 包含需要的头文件即可。</li>
+<li>前置声明隐藏了依赖关系，头文件改动时，用户的代码会跳过必要的重新编译过程。</li>
+</ul>
+<p>看法二：</p>
+<ul>
+<li>通过前置声明的方式，减少头文件中依赖的其他头文件。将头文件的包含动作延迟到源文件中去实现。</li>
+<li>使用场景：头文件只用到对应内容的指针或引用不涉及具体内容。或用到一个结构体声明，但不想包一个很大的头文件将依赖扩散。（struct Foo;在源文件中#include &lt;Foo.h&gt;）</li>
+</ul>
+<p>可以参考：<a class="link"   href="https://www.notion.so/md/c++/tips/c++-tips-forward-declaration.html" >C++前置声明 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<h2 id="避免错误依赖和反向依赖"><a href="#避免错误依赖和反向依赖" class="headerlink" title="避免错误依赖和反向依赖"></a>避免错误依赖和反向依赖</h2><ul>
+<li>包含每个头文件时，需要分析是不是合适的依赖，避免包含错误的头文件，导致其依赖的其他头文件项变多。</li>
+</ul>
+<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//log.h</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;logType.h&gt;</span>#<span class="keyword">include</span><span class="string">&lt;logTime.h&gt;</span><span class="comment">//不应该包含项</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;message.h&gt;</span>#<span class="keyword">include</span><span class="string">&lt;httpType.h&gt;</span></span></span><br><span class="line">        Copied!</span><br></pre></td></tr></table></figure></div>
+
+<p>12345678</p>
+<h2 id="尽可能将代码拆分成相对独立的，粒度小的单元，放到不同的文件中"><a href="#尽可能将代码拆分成相对独立的，粒度小的单元，放到不同的文件中" class="headerlink" title="尽可能将代码拆分成相对独立的，粒度小的单元，放到不同的文件中"></a>尽可能将代码拆分成相对独立的，粒度小的单元，放到不同的文件中</h2><ul>
+<li>不能使得一个类代码很臃肿，包含特别多的功能，不方便维护。</li>
+<li>通过拆分成小的，独立的模块更利于维护。</li>
+</ul>
+<h2 id="包含头文件顺序"><a href="#包含头文件顺序" class="headerlink" title="包含头文件顺序"></a>包含头文件顺序</h2><p>头文件Test.h和源文件Test.cpp，对应的头文件包含顺序都需要满足：</p>
+<ol>
+<li>Test.h （如果自己定义的头文件有错，编译时会提前暴露自身的错误而不是其他库的。）</li>
+<li>本项目内的.h文件</li>
+<li>其它库的.h文件</li>
+<li>C系统文件</li>
+<li>C++系统文件</li>
+</ol>
+<p>没有唯一的标准，都是适合自己的习惯，google C++ 头文件顺序：</p>
+<ol>
+<li>主体功能文件（这一条规则保证维护这些文件的人们首先看到构建中止的消息而不是维护其他包的人们。）</li>
+<li>C系统文件</li>
+<li>C++系统文件</li>
+<li>其它库的.h文件</li>
+<li>本项目内的.h文件</li>
+</ol>
+<h2 id="包含头文件时，使用源码的目录树结构，不使用相对路径"><a href="#包含头文件时，使用源码的目录树结构，不使用相对路径" class="headerlink" title="包含头文件时，使用源码的目录树结构，不使用相对路径"></a>包含头文件时，使用源码的目录树结构，不使用相对路径</h2><p>使用源码的目录树结构，而不是相对路径：</p>
+<ul>
+<li>为保证唯一性, 头文件的命名应该基于所在项目源代码树的全路径</li>
+<li>#include &lt;drogon&#x2F;orm&#x2F;Result.h&gt; √</li>
+<li>#include &lt;..&#x2F;..&#x2F;Result.h&gt; ×</li>
+</ul>
+<h2 id="头文件中不允许使用using-namespace-XXX·措施"><a href="#头文件中不允许使用using-namespace-XXX·措施" class="headerlink" title="头文件中不允许使用using namespace XXX·措施"></a>头文件中不允许使用using namespace XXX·措施</h2><ul>
+<li>头文件使用 <code>using namespace XXX</code> 会破坏 namespace 的封装性</li>
+<li>因为头文件会被包含在其他的头文件和cpp文件中。导致C++编译器将头文件字符串直接拷贝，强制其他的头文件也使用 <code>using namespace XXX</code>,从而引起编译错误，或者使用错误的类型，造成麻烦。</li>
+</ul>
+<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//正例</span></span><br><span class="line"><span class="keyword">namespace</span> HttpProxy&#123;</span><br><span class="line">    <span class="keyword">using</span> Poco::ByteOrder;</span><br><span class="line">    <span class="keyword">using</span> Poco::UInt16;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 反例</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> HttpProxy&#123;</span><br><span class="line">    <span class="keyword">using</span> <span class="keyword">namespace</span> Poco;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">        Copied!</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="保证措施"><a href="#保证措施" class="headerlink" title="保证措施"></a>保证措施</h1><ul>
+<li>代码扫描工具识别多余包含</li>
+<li>Code Review发现头文件包含是否规范</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title>强化学习基本概念</title>
+    <url>/2025/02/07/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/</url>
+    <content><![CDATA[<h3 id="0-综述类网站与文章"><a href="#0-综述类网站与文章" class="headerlink" title="0.综述类网站与文章"></a>0.综述类网站与文章</h3><p><a href="https://spinningup.openai.com/en/latest/spinningup/spinningup.html#id49"><strong>Spinning Up as a Deep RL Researcher</strong></a></p>
+<p><a class="link"   href="https://lilianweng.github.io/posts/2018-02-19-rl-overview/" >A (Long) Peek into Reinforcement Learning <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<h2 id="1-Key-Concepts"><a href="#1-Key-Concepts" class="headerlink" title="1. Key Concepts"></a>1. Key Concepts</h2><p><strong>environment  环境</strong></p>
+<p><strong>model</strong> 描述环境如何对特定动作做出反应（control里面的传函和状态传递方程）</p>
+<p><strong>states</strong> 一般写作 s</p>
+<p><strong>actions</strong> 一般写作 a</p>
+<p><strong>reward</strong>  环境会提供奖励 （r∈R） 作为反馈。</p>
+<p><strong>P</strong>    transition probabilities between states</p>
+<p><strong>agent</strong> 智能体，与环境交互并进行控制的主体</p>
+<p><strong>policy</strong> 一般写作π(s)， 告诉我们在状态 s 中要采取什么行动。它是从状态 s 到作 a 的映射，可以是确定性的，也可以是随机的,目的是最大化总奖励，也就是下面说的value.</p>
+<blockquote>
+<p>策略本质上是一个概率分布，πθ(a∣s)\pi_\theta(a | s)πθ(a∣s) 直接给出了每个动作的概率</p>
+</blockquote>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202502070949865.png"
+                      alt="image-20250207094931820"
+                ></p>
+<p>value 目标指标，量化了一个 policy 的好坏， control  里的代价函数可以算是一种 value</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202502070950401.png"
+                      alt="image-20250207095002356"
+                ></p>
+<p><strong>episode 在agent和环境交互中不断积累关于环境的知识，学习最佳策略。系统的变化过程构成一个交互序列，或者叫trial 、trajectory</strong></p>
+<p>transition probability function 转移概率函数 P  &amp; reward function  奖励函数 R</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202502070950407.png"
+                      alt="image-20250207095022364"
+                ></p>
+<p><strong>action-value Q 值</strong></p>
+<p>可以把 Q(s,a)Q(s, a)Q(s,a) 理解为：</p>
+<p>处于某个状态 s 时，如果执行动作 a，那么未来能得到多少奖励；是对 <strong>“选择这个动作值得吗？”</strong> 这个问题的量化评估。</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202502070950757.png"
+                      alt="image-20250207095041716"
+                ></p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202502070950180.png"
+                      alt="image-20250207095050144"
+                ></p>
+<h2 id="2-Basic-Approaches"><a href="#2-Basic-Approaches" class="headerlink" title="2. Basic Approaches"></a>2. Basic Approaches</h2><ol>
+<li><p>DP方法   Dynamic Approach <strong>动态规划</strong></p>
+<p>模型完全已知时，按照 Bellman 方程，我们可以使用动态规划 （DP） 迭代评估价值函数并改进策略。</p>
+<ol>
+<li>策略评估</li>
+<li>策略改进</li>
+<li>策略迭代 <em>Generalized Policy Iteration (GPI)</em> algorithm</li>
+</ol>
+</li>
+<li><p>MC方法 <strong>Monte-Carlo Methods</strong></p>
+</li>
+</ol>
+<blockquote>
+<p>蒙特卡洛 （MC） 方法使用一个简单的想法：它从原始经验中学习，而不对环境动态进行建模，并将观察到的平均回报计算为预期回报的近似值。</p>
+</blockquote>
+<ol start="3">
+<li><p>TD方法 <strong>Temporal-Difference Learning</strong></p>
+<p>无模型、从经验中学习</p>
+<p>但是相较于MC方法不需要完整的 episode</p>
+<p>TD 学习方法根据现有估计更新目标，而不是像 MC 方法那样完全依赖实际奖励和完整回报。这种方法称为 bootstrapping。</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202502070953953.png"
+                      alt="image-20250207095304901"
+                ></p>
+</li>
+</ol>
+<h2 id="3-MDP过程"><a href="#3-MDP过程" class="headerlink" title="3. MDP过程"></a>3. MDP过程</h2><p>更正式地说，几乎所有的 RL 问题都可以被框定为马尔可夫决策过程 （MDP）。MDP 中的所有状态都具有 “Markov” 属性，指的是 future 只取决于当前状态，而不取决于历史的事实：</p>
+<p>P[St+1|St]&#x3D;P[St+1|S1,…,St]</p>
+<p>或者换句话说，鉴于现在，未来和过去在条件上是独立的，因为当前状态封装了我们决定未来所需的所有统计数据。</p>
+<p>马尔可夫定义过程由五个元素 M&#x3D;⟨S,A,P,R,γ⟩ 组成，其中符号与上一节中的关键概念具有相同的含义，与 RL 问题设置非常一致</p>
+<p><a class="link"   href="https://www.jeremykun.com/2015/04/06/markov-chain-monte-carlo-without-all-the-bullshit/" >Markov Chain Monte Carlo Without all the Bullshit <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+]]></content>
+  </entry>
 </search>
