@@ -876,16 +876,16 @@
 <p>JPL实验室做深空探测天线的那帮家伙弄出来的控制系统设计全流程，从系统建模、扰动建模、参数辨识、控制器设计一应俱全，很有启发意义的</p>
 </blockquote>
 <h1 id="1-Short-Description-of-the-Antenna-Control-System"><a href="#1-Short-Description-of-the-Antenna-Control-System" class="headerlink" title="1.Short Description of the Antenna Control System"></a>1.Short Description of the Antenna Control System</h1><h2 id="1-1-组成"><a href="#1-1-组成" class="headerlink" title="1.1 组成"></a>1.1 组成</h2><p>The antenna controller consists of two independent subsystems: azimuth and elevation controllers  （转台或者就是云台）</p>
-<p>azimuth (vertical)  </p>
-<p>elevation (horizontal)  </p>
-<h2 id="1-2-控制框图"><a href="#1-2-控制框图" class="headerlink" title="1.2 控制框图"></a>1.2 控制框图</h2><p>Velocity Loop: </p>
+<p>azimuth (vertical)</p>
+<p>elevation (horizontal)</p>
+<h2 id="1-2-控制框图"><a href="#1-2-控制框图" class="headerlink" title="1.2 控制框图"></a>1.2 控制框图</h2><p>Velocity Loop:</p>
 <p><img  
                      lazyload
                      src="/images/loading.svg"
                      data-src="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202506082111853.png"
                       alt="image-20250608211111780"
                 ></p>
-<p>Position-Loop  </p>
+<p>Position-Loop</p>
 <p><img  
                      lazyload
                      src="/images/loading.svg"
@@ -911,11 +911,11 @@
                       alt="image-20250608211408466"
                 ></p>
 <h2 id="2-2-Models-from-Identification"><a href="#2-2-Models-from-Identification" class="headerlink" title="2.2 Models from Identification"></a>2.2 Models from Identification</h2><blockquote>
-<p>The white noise is a random signal of even spectrum within the antenna bandwidth; hence each frequency component of the antenna dynamics is excited evenly  </p>
+<p>The white noise is a random signal of even spectrum within the antenna bandwidth; hence each frequency component of the antenna dynamics is excited evenly</p>
 </blockquote>
-<p><strong>White Noise Testing of the Antenna</strong>  </p>
+<p><strong>White Noise Testing of the Antenna</strong></p>
 <blockquote>
-<p>The sweep-sine excites antenna resonances, causing wear, and excites antenna backlash since resonance forces exceed antibacklash torques.  </p>
+<p>The sweep-sine excites antenna resonances, causing wear, and excites antenna backlash since resonance forces exceed antibacklash torques.</p>
 </blockquote>
 <p>主要是担心结构磨损和反冲backlash</p>
 <p><img  
@@ -936,7 +936,7 @@
                      data-src="https://cdn.jsdelivr.net/gh/POCRO/myPic/pics/202506082116945.png"
                       alt="image-20250608211614912"
                 ></p>
-<h2 id="2-3-Model-Reduction"><a href="#2-3-Model-Reduction" class="headerlink" title="2.3 Model Reduction"></a>2.3 Model Reduction</h2><p>Additionally, the measurement noise is included in the model  </p>
+<h2 id="2-3-Model-Reduction"><a href="#2-3-Model-Reduction" class="headerlink" title="2.3 Model Reduction"></a>2.3 Model Reduction</h2><p>Additionally, the measurement noise is included in the model</p>
 <p><img  
                      lazyload
                      src="/images/loading.svg"
@@ -970,6 +970,23 @@
 ]]></content>
       <tags>
         <tag>读书笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo��վָ��</title>
+    <url>/2025/02/07/hexo%E5%BB%BA%E7%AB%99%E6%8C%87%E5%8D%97/</url>
+    <content><![CDATA[<h1 id="1-hexo����ʹ��"><a href="#1-hexo����ʹ��" class="headerlink" title="1. hexo����ʹ��"></a>1. hexo����ʹ��</h1><p><a class="link"   href="https://hexo.io/zh-cn/" >Hexo����
+ <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p><a class="link"   href="https://zhuanlan.zhihu.com/p/60578464" >ʹ�� Hexo+GitHub �������Ѳ��ͽ̳̣�С���� <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p><a class="link"   href="https://blog.csdn.net/weixin_45631738/article/details/104716374" >hexo+gitee(����)����˲��ͱܿ����п� <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<h1 id="2-�y�������"><a href="#2-�y�������" class="headerlink" title="2. �ÿ�������"></a>2. �ÿ�������</h1><p><a class="link"   href="https://redefine-docs.ohevan.com/zh/getting-started" >Redfine <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<h1 id="3-PicGoͼ��������vscode���"><a href="#3-PicGoͼ��������vscode���" class="headerlink" title="3. PicGoͼ��������vscode���"></a>3. PicGoͼ��������vscode���</h1><p><a class="link"   href="https://picgo.github.io/PicGo-Doc/zh/" >PicGo���� <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p><a class="link"   href="https://www.erenship.com/posts/db37.html" >Hexo ����վ����ٲ���ȫָ�� <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p><a class="link"   href="https://zhuanlan.zhihu.com/p/610566015" >VScode+Markdown+PicGo <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p><a class="link"   href="https://zhuanlan.zhihu.com/p/489236769" >ʹ��Github+picGo�ͼ������ķ���̳����� <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+]]></content>
+      <tags>
+        <tag>ʵ��</tag>
       </tags>
   </entry>
 </search>
