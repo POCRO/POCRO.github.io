@@ -989,7 +989,44 @@
 <p>ctr alt u</p>
 ]]></content>
       <tags>
-        <tag>实用d</tag>
+        <tag>奇技淫巧</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>win+ubuntu双系统键鼠共用</title>
+    <url>/2025/06/12/win+ubuntu%E5%8F%8C%E7%B3%BB%E7%BB%9F%E9%94%AE%E9%BC%A0%E5%85%B1%E7%94%A8/</url>
+    <content><![CDATA[<h1 id="0-Barrier"><a href="#0-Barrier" class="headerlink" title="0 .Barrier"></a>0 .Barrier</h1><blockquote>
+<p>Eliminate the barrier between your machines. Find <a class="link"   href="https://github.com/debauchee/barrier/releases" >releases for windows and macOS here <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>. Your distro probably already has barrier packaged for it, see <a class="link"   href="https://github.com/debauchee/barrier#distro-specific-packages" >distro specific packages <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> below for a list. Alternatively, we also provide a <a class="link"   href="https://github.com/flathub/com.github.debauchee.barrier" >flatpak <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> and a <a class="link"   href="https://snapcraft.io/barrier" >snap <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>.</p>
+</blockquote>
+<h1 id="1-windows服务器端配置"><a href="#1-windows服务器端配置" class="headerlink" title="1. windows服务器端配置"></a>1. windows服务器端配置</h1><p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://raw.githubusercontent.com/POCRO/myPic/main/pics20250612104536.png"
+                      alt="20250612104536"
+                ></p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://raw.githubusercontent.com/POCRO/myPic/main/pics20250612104554.png"
+                      alt="20250612104554"
+                ></p>
+<p>注意要取消勾选开启SSL选项</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://raw.githubusercontent.com/POCRO/myPic/main/pics20250612104616.png"
+                      alt="20250612104616"
+                ></p>
+<p>注意这里右侧屏幕名要与客户端的实际名字一致！</p>
+<p>另外应当调整DPI设置</p>
+<p><a class="link"   href="https://blog.csdn.net/weixin_42683670/article/details/140374278" >光标消失bug <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<h1 id="2-ubuntu客户端配置"><a href="#2-ubuntu客户端配置" class="headerlink" title="2. ubuntu客户端配置"></a>2. ubuntu客户端配置</h1><p>安装很简单</p>
+<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line">sudo apt install barrier</span><br></pre></td></tr></table></figure></div>
+
+<p>命令行里直接barrier就可以启动</p>
+]]></content>
+      <tags>
+        <tag>奇技淫巧</tag>
       </tags>
   </entry>
 </search>
