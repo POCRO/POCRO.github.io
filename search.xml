@@ -992,6 +992,9 @@
 <p><a class="link"   href="https://zhuanlan.zhihu.com/p/489236769" >使用Github+picGo搭建图床，保姆级教程来了 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
 <p>vscode markdown环境中直接插入图传到Picgo的快捷键</p>
 <p>ctr alt u</p>
+<h1 id="4-字体修改"><a href="#4-字体修改" class="headerlink" title="4. 字体修改"></a>4. 字体修改</h1><p>在_config.redfine.yml文件里搜font即可修改</p>
+<p>public&#x2F;fonts&#x2F;font.css里有已经加载好可用的字体</p>
+<p><a class="link"   href="https://redefine-docs-v1.ohevan.com/docs/configuration-guide/custom#font" >redfine font doc <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
 ]]></content>
       <tags>
         <tag>奇技淫巧</tag>
